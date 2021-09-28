@@ -143,11 +143,11 @@ def research_ticker(ticker):
     #     sections.append("stockinvest")
     #     print("ERROR in MarketDataResearch for "+ticker+" section: stockinvest")
 
-    try:
-        marketdata.yahoo_rank, marketdata.under_priced_pnt,marketdata.target_mean_price = get_yahoo_rank_for_ticker(ticker)
-    except:
-        sections.append("yahooRank")
-        print("ERROR in MarketDataResearch for "+ticker+" section: yahooRank")
+    # try:
+    #     marketdata.yahoo_rank, marketdata.under_priced_pnt,marketdata.target_mean_price = get_yahoo_rank_for_ticker(ticker)
+    # except:
+    #     sections.append("yahooRank")
+    #     print("ERROR in MarketDataResearch for "+ticker+" section: yahooRank")
 
     try:
         marketdata.fmp_rating, marketdata.fmp_score = get_fmp_ratings_score_for_ticker(ticker)
@@ -164,9 +164,18 @@ def research_ticker(ticker):
     try:
         info = get_info_for_ticker(ticker)
         marketdata.beta = info['beta']
+        try:
+            marketdata.target_mean_price = info['targetMeanPrice']
+            difference = marketdata.target_mean_price - info['currentPrice']
+            marketdata.under_priced_pnt = round(difference / marketdata.target_mean_price * 100, 1)
+            marketdata.yahoo_rank = info['recommendationMean']
+        except:
+            marketdata.yahoo_rank = 6
+            marketdata.under_priced_pnt = 0
+            marketdata.target_mean_price = 0
     except:
-        sections.append("Beta yahooStats")
-        print("ERROR in Info research for "+ticker+" section: yahooStats")
+        sections.append("Yahoo info")
+        print("ERROR in Info research for "+ticker+" section: Yahoo info")
 
     if len(sections) > 0:
         send_email(recipient='support@algotrader.company',
@@ -176,12 +185,12 @@ def research_ticker(ticker):
                    sections=", ".join(sections))
 
     #defaults for exceptions
-    if math.isnan(marketdata.yahoo_avdropP):
-        marketdata.yahoo_avdropP = 0
-    if math.isnan(marketdata.yahoo_avspreadP):
-        marketdata.yahoo_avspreadP = 0
-    if math.isnan(marketdata.target_mean_price):
-        marketdata.target_mean_price = 0
+    # if math.isnan(marketdata.yahoo_avdropP):
+    #     marketdata.yahoo_avdropP = 0
+    # if math.isnan(marketdata.yahoo_avspreadP):
+    #     marketdata.yahoo_avspreadP = 0
+    # if math.isnan(marketdata.target_mean_price):
+    #     marketdata.target_mean_price = 0
     if marketdata.beta is None:
         marketdata.beta = 0
     ct = datetime.utcnow()
