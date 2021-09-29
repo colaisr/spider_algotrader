@@ -12,7 +12,7 @@ import time
 #***************************************
 
 # server_url = "http://127.0.0.1:5000/"
-server_url = "https://www.colak.eu.pythonanywhere.com/"
+server_url = "http://colak.eu.pythonanywhere.com/"
 
 
 def get_all_tickers():
