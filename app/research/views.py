@@ -149,11 +149,11 @@ def research_ticker(ticker):
     #     sections.append("yahooRank")
     #     print("ERROR in MarketDataResearch for "+ticker+" section: yahooRank")
 
-    try:
-        marketdata.fmp_rating, marketdata.fmp_score = get_fmp_ratings_score_for_ticker(ticker)
-    except:
-        sections.append("fmpRating")
-        print("ERROR in MarketDataResearch for "+ticker+" section: fmpRating")
+    # try:
+    #     marketdata.fmp_rating, marketdata.fmp_score = get_fmp_ratings_score_for_ticker(ticker)
+    # except:
+    #     sections.append("fmpRating")
+    #     print("ERROR in MarketDataResearch for "+ticker+" section: fmpRating")
 
     try:
         marketdata.yahoo_avdropP, marketdata.yahoo_avspreadP, marketdata.max_intraday_drop_percent = get_yahoo_stats_for_ticker(ticker)
