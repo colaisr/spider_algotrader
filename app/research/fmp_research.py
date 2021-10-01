@@ -27,9 +27,9 @@ def get_fmp_ratings_score_for_ticker(s):
             score = parsed[0]['ratingScore']
             return rating, score
         else:
-            return 'N', 1
+            return 'N', None
     except:
-        return 'NE', 0
+        return 'NE', None
 
 
 if __name__ == '__main__':

@@ -170,9 +170,9 @@ def research_ticker(ticker):
             marketdata.under_priced_pnt = round(difference / marketdata.target_mean_price * 100, 1)
             marketdata.yahoo_rank = info['recommendationMean']
         except:
-            marketdata.yahoo_rank = 6
-            marketdata.under_priced_pnt = 0
-            marketdata.target_mean_price = 0
+            marketdata.yahoo_rank = None
+            marketdata.under_priced_pnt = None
+            marketdata.target_mean_price = None
     except:
         sections.append("Yahoo info")
         print("ERROR in Info research for "+ticker+" section: Yahoo info")
@@ -184,21 +184,12 @@ def research_ticker(ticker):
                    ticker=ticker,
                    sections=", ".join(sections))
 
-    #defaults for exceptions
-    # if math.isnan(marketdata.yahoo_avdropP):
-    #     marketdata.yahoo_avdropP = 0
-    # if math.isnan(marketdata.yahoo_avspreadP):
-    #     marketdata.yahoo_avspreadP = 0
-    # if math.isnan(marketdata.target_mean_price):
-    #     marketdata.target_mean_price = 0
-    if marketdata.beta is None:
-        marketdata.beta = 0
     ct = datetime.utcnow()
 
     marketdata.updated_server_time = ct
-    marketdata.algotrader_rank = 0 if marketdata.tipranks == 0 \
+    marketdata.algotrader_rank = None if marketdata.tipranks == None \
                                       or marketdata.yahoo_rank is None \
-                                      or marketdata.yahoo_rank == 6 \
+                                      or marketdata.yahoo_rank == None \
                                    else marketdata.tipranks/2 + 6 - marketdata.yahoo_rank
 
     marketdata.add_ticker_data()
