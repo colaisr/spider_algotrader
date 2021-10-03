@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/flask_algotrader.iml" filepath="$PROJECT_DIR$/.idea/flask_algotrader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/spider_algotrader.iml" filepath="$PROJECT_DIR$/.idea/spider_algotrader.iml" />
     </modules>
   </component>
 </project>

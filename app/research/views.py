@@ -12,10 +12,7 @@ from werkzeug.utils import redirect
 from app import csrf
 from app.email import send_email
 from app.models import TickerData, Candidate, LastUpdateSpyderData, ReportStatistic, Report
-from app.research.fmp_research import get_fmp_ratings_score_for_ticker
-from app.research.stock_invest_research import get_stock_invest_rank_for_ticker
 from app.research.tipranks_research import get_tiprank_for_ticker
-from app.research.yahoo_finance_research import get_yahoo_rank_for_ticker
 from app.research.yahoo_research import get_yahoo_stats_for_ticker, get_info_for_ticker
 
 research = Blueprint('research', __name__)
