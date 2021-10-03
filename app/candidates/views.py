@@ -111,8 +111,8 @@ def info():
 def replace_yahoo_data():
     ticker_to_add = request.form['ticker_to_add']
     try:
-        candidate = Candidate.query.filter_by(email='support@algotrader.company', ticker=ticker_to_add).first()
-        if candidate is not None:
+        c = Candidate.query.filter_by(email='support@algotrader.company', ticker=ticker_to_add).first()
+        if c is not None:
             c.ticker = ticker_to_add
             c.reason = "added automatically"
             c.email = 'support@algotrader.company'
