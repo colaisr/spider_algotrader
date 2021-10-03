@@ -53,22 +53,7 @@ def add_by_spider():
                 print(ticker_to_add + " skept no FMP data...")
                 return "skept candidate"
         else:
-            # return "candidate exist"
-            c.ticker = ticker_to_add
-            c.reason = "added automatically"
-            c.email = 'support@algotrader.company'
-            c.enabled = True
-
-            candidate_data = get_info_for_ticker(c.ticker)
-            if candidate_data is not None:
-                c.company_name = candidate_data['longName']
-                c.full_description = candidate_data['longBusinessSummary']
-                c.exchange = candidate_data['exchange']
-                c.industry = candidate_data['industry']
-                c.sector = candidate_data['sector']
-                c.logo = candidate_data['logo_url']
-                c.update_candidate()
-                return "skept candidate"
+            return "candidate exist"
     except:
         send_email(recipient='cola.isr@gmail.com',
                    subject='Algotrader adding candidate problem with ' + ticker_to_add,
