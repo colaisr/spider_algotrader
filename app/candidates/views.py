@@ -111,14 +111,26 @@ def info():
 def replace_yahoo_data():
     ticker_to_add = request.form['ticker_to_add']
     try:
-        c = Candidate()
-        c.ticker = ticker_to_add
-        c.reason = "added automatically"
-        c.email = 'support@algotrader.company'
-        c.enabled = True
-        if not fill_ticker_data_from_yahoo(c):
-            print(ticker_to_add + " skept no FMP data...")
-            return "skept candidate"
+        candidate = Candidate.query.filter_by(email='support@algotrader.company', ticker=ticker_to_add).first()
+        if candidate is not None:
+            c.ticker = ticker_to_add
+            c.reason = "added automatically"
+            c.email = 'support@algotrader.company'
+            c.enabled = True
+
+            candidate_data = get_info_for_ticker(c.ticker)
+            if candidate_data is not None:
+                c.company_name = candidate_data['longName']
+                c.full_description = candidate_data['longBusinessSummary']
+                c.exchange = candidate_data['exchange']
+                c.industry = candidate_data['industry']
+                c.sector = candidate_data['sector']
+                c.logo = candidate_data['logo_url']
+                c.update_candidate()
+                return "success"
+            else:
+                print(ticker_to_add + " skept no FMP data...")
+                return "skept candidate"
     except:
         print("failed to add candidate")
         return "exception in candidate " + ticker_to_add
