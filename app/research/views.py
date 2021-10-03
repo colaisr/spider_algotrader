@@ -3,7 +3,9 @@ import math
 
 from flask import (
     Blueprint,
-    request, url_for
+    request,
+    url_for,
+    jsonify
 )
 from datetime import datetime
 
@@ -14,6 +16,8 @@ from app.email import send_email
 from app.models import TickerData, Candidate, LastUpdateSpyderData, ReportStatistic, Report
 from app.research.tipranks_research import get_tiprank_for_ticker
 from app.research.yahoo_research import get_yahoo_stats_for_ticker, get_info_for_ticker
+
+from flask_cors import CORS, cross_origin
 
 research = Blueprint('research', __name__)
 
@@ -204,6 +208,15 @@ def alltickers():
     for c in cands:
         resp.append(c.ticker)
     return json.dumps(resp)
+
+
+@csrf.exempt
+@research.route('/get_info_ticker/<ticker>', methods=['GET'])
+@cross_origin(origin='*',headers=['Content-Type', 'Authorization'])
+def get_info_ticker(ticker):
+    info = get_info_for_ticker(ticker)
+    return jsonify(info)
+
 
 
 

@@ -23,7 +23,6 @@ def get_yahoo_stats_for_ticker(s):
 def get_info_for_ticker(s):
     # t=yf.Ticker(s)
     inf = yf.Ticker(s).info
-
     return inf
 
 

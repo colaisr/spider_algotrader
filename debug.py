@@ -3,4 +3,4 @@ app = manager.app
 
 
 if __name__ == '__main__':
-    manager.app.run()
+    manager.app.run(host="localhost", port=8000)
