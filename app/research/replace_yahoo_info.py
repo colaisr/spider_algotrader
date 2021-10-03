@@ -28,7 +28,7 @@ tickers = get_all_tickers()
 for t in tickers:
     start_update_time = time.time()
     print(f'Updating data for : {t} stamp: {datetime.now().strftime("%d/%m/%Y %H:%M:%S")}')
-    data = urllib.parse.urlencode({"ticker_to_update": t})
+    data = urllib.parse.urlencode({"ticker_to_add": t})
     data = data.encode('ascii')
     url = server_url + "candidates/replace_yahoo_data"
     response = urllib.request.urlopen(url, data)
