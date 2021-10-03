@@ -7,6 +7,7 @@ import time
 import yfinance as yf
 
 server_url = "http://colak.eu.pythonanywhere.com/"
+# server_url = "http://localhost:8000/"
 
 
 def get_all_tickers():
