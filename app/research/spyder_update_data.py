@@ -59,6 +59,11 @@ def update_market_data(_tickers, _update_times, _research_error_tickers, _error_
 
 now = datetime.now()
 print("*************************************************")
+print("*****updating FGI for today")
+url = server_url + "candidates/updatefgiscore"
+response = urllib.request.urlopen(url)
+print("**** Done *****")
+
 print(f"****Starting spider for last week champs {now.strftime('%d/%m/%Y %H:%M:%S')} ****")
 try:
     url = (

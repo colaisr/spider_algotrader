@@ -23,6 +23,20 @@ from flask_cors import CORS, cross_origin
 
 research = Blueprint('research', __name__)
 
+@csrf.exempt
+@research.route('/updatefgiscore', methods=['POST'])
+def updatefgiscore():
+    try:
+        fgi_score=Fgi_score()
+        val,val_text= get_cnn_fgi_rate()
+        fgi_score.fgi_value=val
+        fgi_score.fgi_text=val_text
+        fgi_score.score_time=datetime.utcnow()
+        fgi_score.add_score()
+    except Exception as e:
+        print('problem with FGI', e)
+    finally:
+        return 1
 
 @csrf.exempt
 @research.route('/updatemarketdataforcandidate', methods=['POST'])
@@ -161,18 +175,6 @@ def research_ticker(ticker):
     except:
         sections.append("Yahoo info")
         print("ERROR in Info research for "+ticker+" section: Yahoo info")
-
-    try:
-        fgi_score=Fgi_score()
-        val,val_text= get_cnn_fgi_rate()
-        fgi_score.fgi_value=val
-        fgi_score.fgi_text=val_text
-        fgi_score.score_time=datetime.utcnow()
-        fgi_score.add_score()
-
-    except:
-        sections.append("FGI Scorring")
-        print("ERROR in FGI")
 
     if len(sections) > 0:
         send_email(recipient='support@algotrader.company',
