@@ -24,7 +24,7 @@ from flask_cors import CORS, cross_origin
 research = Blueprint('research', __name__)
 
 @csrf.exempt
-@research.route('/updatefgiscore', methods=['POST'])
+@research.route('/updatefgiscore', methods=['GET'])
 def updatefgiscore():
     try:
         fgi_score=Fgi_score()
