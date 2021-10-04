@@ -50,6 +50,6 @@ def get_snp500_fails_intraday_lower_than(min):
 
 
 if __name__ == '__main__':
-    get_snp500_fails_intraday_lower_than(-3)
-    # get_info_for_ticker('es=f')
+    #get_snp500_fails_intraday_lower_than(-3)
+    get_info_for_ticker('msft')
     r = 3

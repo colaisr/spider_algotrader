@@ -14,6 +14,8 @@ from werkzeug.utils import redirect
 from app import csrf
 from app.email import send_email
 from app.models import TickerData, Candidate, LastUpdateSpyderData, ReportStatistic, Report
+from app.models.fgi_score import Fgi_score
+from app.research.cnn_fgi_research import get_cnn_fgi_rate
 from app.research.tipranks_research import get_tiprank_for_ticker
 from app.research.yahoo_research import get_yahoo_stats_for_ticker, get_info_for_ticker
 
@@ -159,6 +161,18 @@ def research_ticker(ticker):
     except:
         sections.append("Yahoo info")
         print("ERROR in Info research for "+ticker+" section: Yahoo info")
+
+    try:
+        fgi_score=Fgi_score()
+        val,val_text= get_cnn_fgi_rate()
+        fgi_score.fgi_value=val
+        fgi_score.fgi_text=val_text
+        fgi_score.score_time=datetime.utcnow()
+        fgi_score.add_score()
+
+    except:
+        sections.append("FGI Scorring")
+        print("ERROR in FGI")
 
     if len(sections) > 0:
         send_email(recipient='support@algotrader.company',
