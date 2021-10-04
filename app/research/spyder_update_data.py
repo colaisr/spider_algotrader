@@ -60,7 +60,7 @@ def update_market_data(_tickers, _update_times, _research_error_tickers, _error_
 now = datetime.now()
 print("*************************************************")
 print("*****updating FGI for today")
-url = server_url + "candidates/updatefgiscore"
+url = server_url + "research/updatefgiscore"
 response = urllib.request.urlopen(url)
 print("**** Done *****")
 
