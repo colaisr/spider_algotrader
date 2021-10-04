@@ -36,7 +36,7 @@ def updatefgiscore():
     except Exception as e:
         print('problem with FGI', e)
     finally:
-        return 1
+        return 'Done'
 
 @csrf.exempt
 @research.route('/updatemarketdataforcandidate', methods=['POST'])
