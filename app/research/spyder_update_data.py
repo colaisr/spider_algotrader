@@ -126,10 +126,6 @@ if error_status == 1:
 avg = sum(update_times)/len(update_times) if len(update_times) != 0 else 0
 end_time = datetime.now()
 print(f"***All tickers successfully updated {end_time.strftime('%d/%m/%Y %H:%M:%S')}")
-print("*****updating FGI for today")
-url = server_url + "research/updatefgiscore"
-response = urllib.request.urlopen(url)
-print("**** Done *****")
 print("***Save last time update***")
 
 data = urllib.parse.urlencode({
