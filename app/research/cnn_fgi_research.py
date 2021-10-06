@@ -17,11 +17,12 @@ def get_cnn_fgi_rate():
         rj=json.loads(response.text)
         val=rj['fgi']['now']['value']
         valtext=rj['fgi']['now']['valueText']
+        updated=rj['lastUpdate']['humanDate']
         print(response.text)
-        return val,valtext
+        return val,valtext,updated
     except Exception as e:
         print('problem with getting: ', e)
-        return None,None
+        return None,None,None
 
 if __name__ == '__main__':
     get_cnn_fgi_rate()
