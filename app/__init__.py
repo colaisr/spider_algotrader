@@ -1,7 +1,6 @@
 import os
 
 from flask import Flask
-from flask_assets import Environment
 from flask_compress import Compress
 from flask_login import LoginManager
 from flask_mail import Mail
@@ -96,30 +95,6 @@ def create_app(config):
     # Create app blueprints
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
-
-    from .account import account as account_blueprint
-    app.register_blueprint(account_blueprint, url_prefix='/account')
-
-    from .userview import userview as userview_blueprint
-    app.register_blueprint(userview_blueprint, url_prefix='/userview')
-
-    from .admin import admin as admin_blueprint
-    app.register_blueprint(admin_blueprint, url_prefix='/admin')
-
-    from .connections import connections as connections_blueprint
-    app.register_blueprint(connections_blueprint, url_prefix='/connections')
-
-    from .market_data import marketdata as marketdata_blueprint
-    app.register_blueprint(marketdata_blueprint, url_prefix='/marketdata')
-
-    from .algotrader_settings import algotradersettings as algotradersettings_blueprint
-    app.register_blueprint(algotradersettings_blueprint, url_prefix='/algotradersettings')
-
-    from .closed_position_info import closed_position_info as closed_position_info_blueprint
-    app.register_blueprint(closed_position_info_blueprint, url_prefix='/closed_position_info')
-
-    from .station import station as station_blueprint
-    app.register_blueprint(station_blueprint, url_prefix='/station')
 
     from .research import research as research_blueprint
     app.register_blueprint(research_blueprint, url_prefix='/research')

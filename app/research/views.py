@@ -1,55 +1,54 @@
 import json
-import math
 
 from flask import (
     Blueprint,
     request,
-    url_for,
     jsonify
 )
 from datetime import datetime
 
-from werkzeug.utils import redirect
-
 from app import csrf
 from app.email import send_email
-from app.models import TickerData, Candidate, LastUpdateSpyderData, ReportStatistic, Report
+from app.models import TickerData, Candidate, LastUpdateSpyderData
 from app.models.fgi_score import Fgi_score
 from app.research.cnn_fgi_research import get_cnn_fgi_rate
 from app.research.tipranks_research import get_tiprank_for_ticker
 from app.research.yahoo_research import get_yahoo_stats_for_ticker, get_info_for_ticker
 
-from flask_cors import CORS, cross_origin
+from flask_cors import cross_origin
 
 research = Blueprint('research', __name__)
+
 
 @csrf.exempt
 @research.route('/updatefgiscore', methods=['GET'])
 def updatefgiscore():
     try:
-        fgi_score=Fgi_score()
-        val,val_text,updated_cnn= get_cnn_fgi_rate()
-        fgi_score.fgi_value=val
-        fgi_score.fgi_text=val_text
-        fgi_score.score_time=datetime.utcnow()
-        fgi_score.updated_cnn=updated_cnn
+        fgi_score = Fgi_score()
+        val, val_text, updated_cnn = get_cnn_fgi_rate()
+        fgi_score.fgi_value = val
+        fgi_score.fgi_text = val_text
+        fgi_score.score_time = datetime.utcnow()
+        fgi_score.updated_cnn = updated_cnn
         fgi_score.add_score()
     except Exception as e:
         print('problem with FGI', e)
     finally:
         return 'Done'
 
+
+@research.route('updatemarketdataforcandidate/', methods=['POST'])
 @csrf.exempt
-@research.route('/updatemarketdataforcandidate', methods=['POST'])
+@cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
 def updatemarketdataforcandidate():
     ticker = request.form['ticker_to_update']
     try:
-        m_data = TickerData.query.filter_by(ticker=ticker).order_by(TickerData.updated_server_time.desc()).first()
-        result = research_ticker(ticker)
+        r = research_ticker(ticker)
     except Exception as e:
         print('problem with research', e)
-    finally:
-        return redirect(url_for('admin.market_data'))
+        return "filed"
+    return "success"
+
 
 @csrf.exempt
 @research.route('/updatemarketdataforcandidatespider', methods=['POST'])
@@ -70,6 +69,7 @@ def updatemarketdataforcandidatespider():
     except Exception as e:
         print('problem with research', e)
         return json.dumps({"status": 2, "error": e})
+
 
 @csrf.exempt
 @research.route('/savelasttimeforupdatedata', methods=['POST'])
@@ -113,34 +113,21 @@ def savelasttimeforupdatedata():
 
 
 @csrf.exempt
-@research.route('/update_reports_statistic', methods=['GET'])
-def update_reports_statistic():
-    try:
-        reports = Report.query.all()
-        for r in reports:
-            snapshot = ReportStatistic()
-            snapshot.email = r.email
-            snapshot.report_time = r.report_time
-            snapshot.net_liquidation = r.net_liquidation
-            snapshot.remaining_sma_with_safety = r.remaining_sma_with_safety
-            snapshot.remaining_trades = r.remaining_trades
-            snapshot.all_positions_value = r.all_positions_value
-            snapshot.open_positions_json = r.open_positions_json
-            snapshot.open_orders_json = r.open_orders_json
-            snapshot.dailyPnl = r.dailyPnl
-            snapshot.last_worker_execution = r.last_worker_execution
-            snapshot.market_time = r.market_time
-            snapshot.market_state = r.market_state
-            snapshot.excess_liquidity = r.excess_liquidity
-            snapshot.candidates_live_json = r.candidates_live_json
-            snapshot.started_time = r.started_time
-            snapshot.api_connected = r.api_connected
-            snapshot.market_data_error = r.market_data_error
-            snapshot.add_report()
-        return "successfully update reports statistic"
-    except:
-        print('problem with update reports statistic')
-        return "update reports statistic failed"
+@research.route('/alltickers', methods=['GET'])  # for use from the task
+def alltickers():
+    cands = Candidate.query.filter_by(enabled=True).group_by(Candidate.ticker).all()
+    resp = []
+    for c in cands:
+        resp.append(c.ticker)
+    return json.dumps(resp)
+
+
+@csrf.exempt
+@research.route('/get_info_ticker/<ticker>', methods=['GET'])
+@cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
+def get_info_ticker(ticker):
+    info = get_info_for_ticker(ticker)
+    return jsonify(info)
 
 
 def research_ticker(ticker):
@@ -153,13 +140,14 @@ def research_ticker(ticker):
         marketdata.tipranks, marketdata.twelve_month_momentum = get_tiprank_for_ticker(ticker)
     except:
         sections.append("tiprank")
-        print("ERROR in MarketDataResearch for "+ticker+". Section: tiprank")
+        print("ERROR in MarketDataResearch for " + ticker + ". Section: tiprank")
 
     try:
-        marketdata.yahoo_avdropP, marketdata.yahoo_avspreadP, marketdata.max_intraday_drop_percent = get_yahoo_stats_for_ticker(ticker)
+        marketdata.yahoo_avdropP, marketdata.yahoo_avspreadP, marketdata.max_intraday_drop_percent = get_yahoo_stats_for_ticker(
+            ticker)
     except:
         sections.append("yahooStats")
-        print("ERROR in MarketDataResearch for "+ticker+" section: yahooStats")
+        print("ERROR in MarketDataResearch for " + ticker + " section: yahooStats")
 
     try:
         info = get_info_for_ticker(ticker)
@@ -175,7 +163,7 @@ def research_ticker(ticker):
             marketdata.target_mean_price = None
     except:
         sections.append("Yahoo info")
-        print("ERROR in Info research for "+ticker+" section: Yahoo info")
+        print("ERROR in Info research for " + ticker + " section: Yahoo info")
 
     if len(sections) > 0:
         send_email(recipient='support@algotrader.company',
@@ -188,34 +176,12 @@ def research_ticker(ticker):
 
     marketdata.updated_server_time = ct
     marketdata.algotrader_rank = None if marketdata.tipranks == None \
-                                      or marketdata.yahoo_rank is None \
-                                      or marketdata.yahoo_rank == None \
-                                   else marketdata.tipranks/2 + 6 - marketdata.yahoo_rank
+                                         or marketdata.yahoo_rank is None \
+                                         or marketdata.yahoo_rank == None \
+        else marketdata.tipranks / 2 + 6 - marketdata.yahoo_rank
 
     marketdata.add_ticker_data()
     error_status = 1 if len(sections) > 0 else 0
     print('ended')
     print(datetime.now())
     return json.dumps({"status": error_status, "sections": sections})
-
-
-@csrf.exempt
-@research.route('/alltickers', methods=['GET'])  # for use from the task
-def alltickers():
-    cands = Candidate.query.filter_by(enabled=True).group_by(Candidate.ticker).all()
-    resp = []
-    for c in cands:
-        resp.append(c.ticker)
-    return json.dumps(resp)
-
-
-@csrf.exempt
-@research.route('/get_info_ticker/<ticker>', methods=['GET'])
-@cross_origin(origin='*',headers=['Content-Type', 'Authorization'])
-def get_info_ticker(ticker):
-    info = get_info_for_ticker(ticker)
-    return jsonify(info)
-
-
-
-

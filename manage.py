@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import os
-import subprocess
 
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager, Shell, Server
@@ -113,7 +112,6 @@ def run_worker():
     with Connection(conn):
         worker = Worker(map(Queue, listen))
         worker.work()
-
 
 
 if __name__ == '__main__':

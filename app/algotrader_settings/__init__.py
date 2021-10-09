@@ -1,1 +1,0 @@
-from app.algotrader_settings.views import algotradersettings # noqa
