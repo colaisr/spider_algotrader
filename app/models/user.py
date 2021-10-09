@@ -60,6 +60,7 @@ class User(UserMixin, db.Model):
     tws_requirements = db.Column(db.Boolean, default=False)
     signature = db.Column(db.Boolean, default=False)
     signature_full_name = db.Column(db.String(100))
+    registration_date = db.Column(db.DateTime)
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
