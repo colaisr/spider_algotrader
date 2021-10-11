@@ -9,7 +9,7 @@ from datetime import datetime
 
 from app import csrf
 from app.email import send_email
-from app.models import TickerData, Candidate, LastUpdateSpyderData
+from app.models import TickerData, Candidate, LastUpdateSpyderData, SpiderStatus
 from app.models.fgi_score import Fgi_score
 from app.research.cnn_fgi_research import get_cnn_fgi_rate
 from app.research.tipranks_research import get_tiprank_for_ticker
@@ -110,6 +110,33 @@ def savelasttimeforupdatedata():
     except Exception as e:
         print('problem with update last date. ', e)
         return "failed to update date"
+
+
+@csrf.exempt
+@research.route('/update_spider_process_status', methods=['POST'])
+def update_spider_process_status():
+    status = int(request.form['status'])
+    percent = float(request.form['percent'])
+
+    try:
+        spider_status = SpiderStatus.query.first()
+        if spider_status is None:
+            spider_status = SpiderStatus()
+        if status == 0:
+            spider_status.start_process_date = datetime.utcnow()
+            spider_status.status = "spider started"
+            spider_status.percent = 0
+        elif status == 1:
+            spider_status.status = "spider run"
+            spider_status.percent = percent
+        else:
+            spider_status.status = "spider finished"
+            spider_status.percent = 100
+        spider_status.update_status()
+        return "successfully update spider status"
+    except Exception as e:
+        print('problem with update spider status. ', e)
+        return "failed to update spider status"
 
 
 @csrf.exempt

@@ -11,7 +11,7 @@ import time
 #***************************************
 #***************************************
 
-# server_url = "http://127.0.0.1:5000/"
+# server_url = "http://localhost:8000/"
 server_url = "http://colak.eu.pythonanywhere.com/"
 
 
@@ -26,10 +26,14 @@ def get_all_tickers():
     return _parsed
 
 
-def update_market_data(_tickers, _update_times, _research_error_tickers, _error_tickers):
+def update_market_data(_tickers, _update_times, _research_error_tickers, _error_tickers, percent, counter):
     # test_tickers = _tickers[:5]
     _already_updated_tickers = 0
     _error_status = 0
+
+    p = 100/len(_tickers)
+    min_step = 2
+
     for t in _tickers:
         try:
             start_update_time = time.time()
@@ -50,11 +54,32 @@ def update_market_data(_tickers, _update_times, _research_error_tickers, _error_
                 _research_error_tickers.append({t: _responseJSON["sections"]})
             else:
                 _research_error_tickers.append({t: [_responseJSON["error"]]})
+                counter -= 1
+
+            if counter * p >= percent:
+                update_spider_process_status(percent, 1)
+                percent += min_step
         except Exception as e:
             # print(f"Error in for cycle: {e}")
             _error_status = 1
             _error_tickers.append(t)
-    return _already_updated_tickers, _error_status
+            counter -= 1
+        counter += 1
+    return _already_updated_tickers, _error_status, percent, counter
+
+
+def update_spider_process_status(percent, status):
+    #status: 0 - started, 1 - run, 2 - ended
+    data = urllib.parse.urlencode({
+        "status": status,
+        "percent": percent
+    })
+    data = data.encode('ascii')
+    url = server_url + "research/update_spider_process_status"
+    try:
+        response = urllib.request.urlopen(url, data)
+    except Exception as e:
+        print("update spider process status failed. ", e)
 
 
 def last_week_champs():
@@ -108,7 +133,8 @@ def spider_process():
     research_error_tickers = []
     update_times = []
 
-    already_updated_tickers, error_status = update_market_data(tickers, update_times, research_error_tickers, error_tickers)
+    update_spider_process_status(0, 0)
+    already_updated_tickers, error_status, percent, counter = update_market_data(tickers, update_times, research_error_tickers, error_tickers, 2, 1)
 
     num_of_tickers = len(tickers)
 
@@ -121,7 +147,9 @@ def spider_process():
                 for k, v in item.items():
                     tickers.append(k)
             research_error_tickers = []
-        already_updated_tickers, error_status = update_market_data(tickers, update_times, research_error_tickers, error_tickers)
+        already_updated_tickers, error_status, percent, counter = update_market_data(tickers, update_times, research_error_tickers, error_tickers, percent, counter)
+
+    update_spider_process_status(percent, 2)
 
     if error_status == 1:
         print(f"Update MarketData error. Tickers: {json.dumps(error_tickers)}")
