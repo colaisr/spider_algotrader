@@ -164,7 +164,7 @@ def get_info_ticker(ticker):
 def get_complete_graph_for_ticker(ticker):
     info = get_complete_graph(ticker)
     info.reset_index(level=0, inplace=True)
-    jhistory=info.to_json(orient='records')
+    jhistory=info.to_json(orient='records',date_format='iso')
     return jsonify(symbol=ticker,historical=jhistory)
 
 
