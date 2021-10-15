@@ -163,7 +163,8 @@ def get_info_ticker(ticker):
 @cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
 def get_complete_graph_for_ticker(ticker):
     info = get_complete_graph(ticker)
-    jhistory=info.to_json(orient='records',date_format='iso')
+    info.reset_index(level=0, inplace=True)
+    jhistory=info.to_json(orient='records')
     return jsonify(symbol=ticker,historical=jhistory)
 
 
