@@ -13,7 +13,7 @@ from app.models import TickerData, Candidate, LastUpdateSpyderData, SpiderStatus
 from app.models.fgi_score import Fgi_score
 from app.research.cnn_fgi_research import get_cnn_fgi_rate
 from app.research.tipranks_research import get_tiprank_for_ticker
-from app.research.yahoo_research import get_yahoo_stats_for_ticker, get_info_for_ticker
+from app.research.yahoo_research import get_yahoo_stats_for_ticker, get_info_for_ticker, get_complete_graph
 
 from flask_cors import cross_origin
 
@@ -155,6 +155,16 @@ def alltickers():
 def get_info_ticker(ticker):
     info = get_info_for_ticker(ticker)
     return jsonify(info)
+
+
+# use ^GSPC for SP500
+@csrf.exempt
+@research.route('/get_complete_graph_for_ticker/<ticker>', methods=['GET'])
+@cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
+def get_complete_graph_for_ticker(ticker):
+    info = get_complete_graph(ticker)
+    jhistory=info.to_json(orient='records',date_format='iso')
+    return jsonify(symbol=ticker,historical=jhistory)
 
 
 def research_ticker(ticker):

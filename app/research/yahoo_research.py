@@ -25,8 +25,15 @@ def get_info_for_ticker(s):
     inf = yf.Ticker(s).info
     return inf
 
+def get_complete_graph(s):
+    df = yf.download(s, period="max")
+    df.drop('High', axis=1, inplace=True)
+    df.drop('Low', axis=1, inplace=True)
+    df.drop('Open', axis=1, inplace=True)
+    df.drop('Volume', axis=1, inplace=True)
+    df.drop('Adj Close', axis=1, inplace=True)
+    return df
+
 
 if __name__ == '__main__':
-    #get_snp500_fails_intraday_lower_than(-3)
-    get_info_for_ticker('msft')
     r = 3
