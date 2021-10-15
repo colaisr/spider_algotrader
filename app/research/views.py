@@ -16,6 +16,7 @@ from app.research.tipranks_research import get_tiprank_for_ticker
 from app.research.yahoo_research import get_yahoo_stats_for_ticker, get_info_for_ticker, get_complete_graph
 
 from flask_cors import cross_origin
+import app.generalutils as general
 
 research = Blueprint('research', __name__)
 
@@ -35,6 +36,12 @@ def updatefgiscore():
         print('problem with FGI', e)
     finally:
         return 'Done'
+
+@csrf.exempt
+@research.route('/get_all_emotions', methods=['GET'])
+def get_all_emotions():
+    fgi_scores = Fgi_score.query.order_by(Fgi_score.score_time.asc()).all()
+    return jsonify(historical=json.dumps(fgi_scores, cls=general.JsonEncoder))
 
 
 @research.route('updatemarketdataforcandidate/', methods=['POST'])

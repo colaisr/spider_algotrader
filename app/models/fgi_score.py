@@ -1,5 +1,13 @@
 from .. import db
+from datetime import datetime, date
+import json
 
+def json_serial(obj):
+    """JSON serializer for objects not serializable by default json code"""
+
+    if isinstance(obj, (datetime, date)):
+        return obj.isoformat()
+    raise TypeError("Type %s not serializable" % type(obj))
 
 class Fgi_score(db.Model):
     __tablename__ = 'Fgi_Scores'
@@ -12,4 +20,7 @@ class Fgi_score(db.Model):
     def add_score(self):
         db.session.add(self)
         db.session.commit()
+
+    def toJson(self):
+        return json.dumps(self, default=lambda o: o.__dict__)
 
