@@ -41,7 +41,8 @@ def updatefgiscore():
 @research.route('/get_all_emotions', methods=['GET'])
 def get_all_emotions():
     fgi_scores = Fgi_score.query.order_by(Fgi_score.score_time.asc()).all()
-    return jsonify(historical=json.dumps(fgi_scores, cls=general.JsonEncoder))
+    t=json.dumps(fgi_scores, cls=general.JsonEncoder)
+    return jsonify(historical=json.loads(t))
 
 
 @research.route('updatemarketdataforcandidate/', methods=['POST'])
