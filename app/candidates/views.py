@@ -1,3 +1,4 @@
+import json
 from flask import (
     Blueprint,
     request
@@ -17,14 +18,19 @@ candidates = Blueprint('candidates', __name__)
 @csrf.exempt
 @cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
 def updatecandidate():
-    c = Candidate()
-    c.ticker = request.form['ticker']
-    c.reason = request.form['reason']
-    c.email = request.form['email']
-    c.enabled = True
-    fill_ticker_data_from_yahoo(c)
+    result = {"color_status": "success", "message": "Ticker updated"}
+    try:
+        c = Candidate()
+        c.ticker = request.form['ticker']
+        c.reason = request.form['reason']
+        c.email = request.form['email']
+        c.enabled = True
+        fill_ticker_data_from_yahoo(c)
+    except Exception as e:
+        result = {"color_status": "danger", "message": "Error in server"}
+    return json.dumps(result)
     # return redirect(url_for('candidates.usercandidates'))
-    return "success"
+    # return "success"
 
 
 @candidates.route('add_by_spider', methods=['POST'])
