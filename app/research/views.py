@@ -17,6 +17,8 @@ from app.research.yahoo_research import get_yahoo_stats_for_ticker, get_info_for
 
 from flask_cors import cross_origin
 import app.generalutils as general
+from app import db
+from sqlalchemy import text
 
 research = Blueprint('research', __name__)
 
@@ -36,13 +38,6 @@ def updatefgiscore():
         print('problem with FGI', e)
     finally:
         return 'Done'
-
-@csrf.exempt
-@research.route('/get_all_emotions', methods=['GET'])
-def get_all_emotions():
-    fgi_scores = Fgi_score.query.order_by(Fgi_score.score_time.asc()).all()
-    t=json.dumps(fgi_scores, cls=general.JsonEncoder)
-    return jsonify(historical=json.loads(t))
 
 
 @research.route('updatemarketdataforcandidate/', methods=['POST'])
@@ -164,16 +159,6 @@ def get_info_ticker(ticker):
     info = get_info_for_ticker(ticker)
     return jsonify(info)
 
-
-# use ^GSPC for SP500
-@csrf.exempt
-@research.route('/get_complete_graph_for_ticker/<ticker>', methods=['GET'])
-@cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
-def get_complete_graph_for_ticker(ticker):
-    info = get_complete_graph(ticker)
-    info.reset_index(level=0, inplace=True)
-    jhistory=info.to_dict(orient='records')
-    return jsonify(symbol=ticker,historical=jhistory)
 
 
 def research_ticker(ticker):
