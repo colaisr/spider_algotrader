@@ -32,6 +32,23 @@ class TickerData(db.Model):
     updated_server_time = db.Column('updated_server_time', db.DateTime)
     algotrader_rank = db.Column('algotrader_rank', db.Float)
 
+    tr_hedgeFundTrendValue = db.Column('tr_hedgeFundTrendValue', db.Float)
+    tr_bloggerSectorAvg = db.Column('tr_bloggerSectorAvg', db.Float)
+    tr_bloggerBullishSentiment = db.Column('tr_bloggerBullishSentiment', db.Float)
+    tr_insidersLast3MonthsSum = db.Column('tr_insidersLast3MonthsSum', db.Float)
+    tr_newsSentimentsBearishPercent = db.Column('tr_newsSentimentsBearishPercent', db.Float)
+    tr_newsSentimentsBullishPercent = db.Column('tr_newsSentimentsBullishPercent', db.Float)
+    tr_priceTarget = db.Column('tr_priceTarget', db.Float)
+    tr_fundamentalsReturnOnEquity = db.Column('tr_fundamentalsReturnOnEquity', db.Float)
+    tr_fundamentalsAssetGrowth = db.Column('tr_fundamentalsAssetGrowth', db.Float)
+    tr_sma = db.Column('tr_sma', db.String)
+    tr_analystConsensus = db.Column('tr_analystConsensus', db.String)
+    tr_hedgeFundTrend = db.Column('tr_hedgeFundTrend', db.String)
+    tr_insiderTrend = db.Column('tr_insiderTrend', db.String)
+    tr_newsSentiment = db.Column('tr_newsSentiment', db.String)
+    tr_bloggerConsensus = db.Column('tr_bloggerConsensus', db.String)
+
+
     def add_ticker_data(self):
         db.session.add(self)
         db.session.commit()
@@ -55,6 +72,23 @@ class TickerData(db.Model):
         d['fmp_rating'] = self.fmp_rating
         d['fmp_score'] = self.fmp_score
         d['stock_invest_rank'] = self.stock_invest_rank
+
+        d['tr_hedgeFundTrendValue'] = self.tr_hedgeFundTrendValue
+        d['tr_bloggerSectorAvg'] = self.tr_bloggerSectorAvg
+        d['tr_bloggerBullishSentiment'] = self.tr_bloggerBullishSentiment
+        d['tr_insidersLast3MonthsSum'] = self.tr_insidersLast3MonthsSum
+        d['tr_newsSentimentsBearishPercent'] = self.tr_newsSentimentsBearishPercent
+        d['tr_newsSentimentsBullishPercent'] = self.tr_newsSentimentsBullishPercent
+        d['tr_priceTarget'] = self.tr_priceTarget
+        d['tr_fundamentalsReturnOnEquity'] = self.tr_fundamentalsReturnOnEquity
+        d['tr_fundamentalsAssetGrowth'] = self.tr_fundamentalsAssetGrowth
+        d['tr_sma'] = self.tr_sma
+        d['tr_analystConsensus'] = self.tr_analystConsensus
+        d['tr_hedgeFundTrend'] = self.tr_hedgeFundTrend
+        d['tr_insiderTrend'] = self.tr_insiderTrend
+        d['tr_newsSentiment'] = self.tr_newsSentiment
+        d['tr_bloggerConsensus'] = self.tr_bloggerConsensus
+
         d['updated_server_time'] = datetime.isoformat(self.updated_server_time)
         return d
 

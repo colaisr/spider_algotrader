@@ -183,7 +183,25 @@ def research_ticker(ticker):
     marketdata.ticker = ticker
     sections = []
     try:
-        marketdata.tipranks, marketdata.twelve_month_momentum = get_tiprank_for_ticker(ticker)
+        tr=get_tiprank_for_ticker(ticker)
+        marketdata.tipranks=tr['smartScore']
+        marketdata.twelve_month_momentum=tr['technicalsTwelveMonthsMomentum']
+        marketdata.tr_hedgeFundTrend=tr['tr_hedgeFundTrendValue']
+        marketdata.tr_bloggerSectorAvg=tr['tr_bloggerSectorAvg']
+        marketdata.tr_bloggerBullishSentiment=tr['tr_bloggerBullishSentiment']
+        marketdata.tr_insidersLast3MonthsSum=tr['tr_insidersLast3MonthsSum']
+        marketdata.tr_newsSentimentsBearishPercent=tr['tr_newsSentimentsBearishPercent']
+        marketdata.tr_newsSentimentsBullishPercent=tr['tr_newsSentimentsBullishPercent']
+        marketdata.tr_priceTarget=tr['tr_priceTarget']
+        marketdata.tr_fundamentalsReturnOnEquity=tr['tr_fundamentalsReturnOnEquity']
+        marketdata.tr_fundamentalsAssetGrowth=tr['tr_fundamentalsAssetGrowth']
+        marketdata.tr_sma=tr['tr_sma']
+        marketdata.tr_analystConsensus=tr['tr_analystConsensus']
+        marketdata.tr_hedgeFundTrend=tr['tr_hedgeFundTrend']
+        marketdata.tr_insiderTrend=tr['tr_insiderTrend']
+        marketdata.tr_newsSentiment=tr['tr_newsSentiment']
+        marketdata.tr_bloggerConsensus=tr['tr_bloggerConsensus']
+
     except:
         sections.append("tiprank")
         print("ERROR in MarketDataResearch for " + ticker + ". Section: tiprank")

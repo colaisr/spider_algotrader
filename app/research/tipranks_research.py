@@ -13,8 +13,8 @@ def get_tiprank_for_ticker(ticker):
     except:
         score = None
         momentum = None
-    return score, momentum
+    return result[0]
 
 
 if __name__ == '__main__':
-    r, q = get_tiprank_for_ticker('ABCL')
+    tr = get_tiprank_for_ticker('ABCL')
