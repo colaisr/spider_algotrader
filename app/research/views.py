@@ -169,7 +169,7 @@ def research_ticker(ticker):
     sections = []
     try:
         m=2
-        # tr=get_tiprank_for_ticker(ticker)
+        tr=get_tiprank_for_ticker(ticker)
         # marketdata.tipranks=tr['smartScore']
         # marketdata.twelve_month_momentum=tr['technicalsTwelveMonthsMomentum']
         # marketdata.tr_hedgeFundTrend=tr['tr_hedgeFundTrendValue']
