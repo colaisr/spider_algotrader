@@ -12,6 +12,7 @@ from app.email import send_email
 from app.models import TickerData, Candidate, LastUpdateSpyderData, SpiderStatus
 from app.models.fgi_score import Fgi_score
 from app.research.cnn_fgi_research import get_cnn_fgi_rate
+from app.research.fmp_research import get_fmp_stats_for_ticker
 from app.research.tipranks_research import get_tiprank_for_ticker
 from app.research.yahoo_research import get_yahoo_stats_for_ticker, get_info_for_ticker, get_complete_graph
 
@@ -193,7 +194,7 @@ def research_ticker(ticker):
         print("ERROR in MarketDataResearch for " + ticker + ". Section: tiprank")
 
     try:
-        marketdata.yahoo_avdropP, marketdata.yahoo_avspreadP, marketdata.max_intraday_drop_percent = get_yahoo_stats_for_ticker(
+        marketdata.yahoo_avdropP, marketdata.yahoo_avspreadP, marketdata.max_intraday_drop_percent,marketdata.buying_target_price_fmp = get_fmp_stats_for_ticker(
             ticker)
     except:
         sections.append("yahooStats")

@@ -19,6 +19,7 @@ class TickerData(db.Model):
     ticker = db.Column('ticker', db.String)
     yahoo_avdropP = db.Column('yahoo_avdropP', db.Float)
     yahoo_avspreadP = db.Column('yahoo_avspreadP', db.Float)
+    buying_target_price_fmp=db.Column('buying_target_price_fmp', db.Float)
     tipranks = db.Column('tipranks', db.Integer)
     yahoo_rank = db.Column('yahoo_rank', db.Float)
     stock_invest_rank = db.Column('stock_invest_rank', db.Float)
@@ -29,6 +30,7 @@ class TickerData(db.Model):
     beta = db.Column('beta', db.Float)
     fmp_rating = db.Column('fmp_rating', db.String)
     fmp_score = db.Column('fmp_score', db.Integer)
+
     updated_server_time = db.Column('updated_server_time', db.DateTime)
     algotrader_rank = db.Column('algotrader_rank', db.Float)
 
@@ -61,6 +63,7 @@ class TickerData(db.Model):
         d['ticker'] = self.ticker
         d['yahoo_avdropP'] = self.yahoo_avdropP
         d['yahoo_avspreadP'] = self.yahoo_avspreadP
+        d['buying_target_price_fmp'] = self.buying_target_price_fmp
         d['tipranks'] = self.tipranks
         d['yahoo_rank'] = self.yahoo_rank
         d['algotrader_rank'] = self.algotrader_rank
