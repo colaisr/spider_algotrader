@@ -102,6 +102,9 @@ def create_app(config):
     from .candidates import candidates as candidates_blueprint
     app.register_blueprint(candidates_blueprint, url_prefix='/candidates')
 
+    from .data_hub import data_hub as data_hub_blueprint
+    app.register_blueprint(data_hub_blueprint, url_prefix='/data_hub')
+
     return app
 
 

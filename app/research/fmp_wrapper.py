@@ -36,6 +36,7 @@ def get_last_year_full_for_ticker_optional(t):
     return data['historical']
 
 def get_last_year_full_for_ticker(t):
+    #used in spider
     days=365
     url = (
         "https://financialmodelingprep.com/api/v3/historical-price-full/"+t+"?timeseries="+str(days)+"&apikey="+FMP_KEY)
@@ -43,6 +44,14 @@ def get_last_year_full_for_ticker(t):
     print("got Last year data  from FMP for : "+t)
     return data['historical']
 
+def historical_daily_price_full_w(t):
+    #wrapper
+    url = (
+        "https://financialmodelingprep.com/api/v3/historical-price-full/"+t+"?serietype=line&apikey="+FMP_KEY)
+    context = ssl.create_default_context(cafile=certifi.where())
+    response = urlopen(url, context=context)
+    data = json.load(response)
+    return data
 
 if __name__ == '__main__':
     get_last_year_full_for_ticker('msft')
