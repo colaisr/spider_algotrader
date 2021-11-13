@@ -40,7 +40,7 @@ def get_last_year_full_for_ticker(t):
     url = (
         "https://financialmodelingprep.com/api/v3/historical-price-full/"+t+"?timeseries="+str(days)+"&apikey="+FMP_KEY)
     data=get_jsonparsed_data(url)
-    print(get_jsonparsed_data(url))
+    print("got Last year data  from FMP for : "+t)
     return data['historical']
 
 
