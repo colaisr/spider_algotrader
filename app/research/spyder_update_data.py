@@ -180,9 +180,22 @@ def spider_process():
         print("Saving time update data failed. ", e)
     print("*************************************************")
 
+
+def update_data_historical():
+    data = urllib.parse.urlencode({
+        "test": "test"
+    })
+    data = data.encode('ascii')
+    url = server_url + "candidates/update_ticker_historical"
+    try:
+        response = urllib.request.urlopen(url, data)
+    except Exception as e:
+        print(e)
+
 #*****************************************************************
 #*****************************************************************
 #*****************************************************************
 
-last_week_champs()
-spider_process()
+# last_week_champs()
+# spider_process()
+update_data_historical()
