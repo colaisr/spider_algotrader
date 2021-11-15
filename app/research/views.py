@@ -157,8 +157,11 @@ def alltickers():
 @research.route('/get_info_ticker/<ticker>', methods=['GET'])
 @cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
 def get_info_ticker(ticker):
+    print('company info requested')
     # info = get_info_for_ticker(ticker)
     info = get_company_info(ticker)
+    print('company found :')
+    print(info)
 
     return jsonify(info)
 
