@@ -69,7 +69,7 @@ def add_by_spider():
 @csrf.exempt
 def update_ticker_historical():
     try:
-        candidates = Candidate.query.filter_by(ticker=None).all()
+        candidates = Candidate.query.all()
         if candidates is not None:
             for c in candidates:
                 candidate_data = get_company_info_for_ticker(c.ticker)
