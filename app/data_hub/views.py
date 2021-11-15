@@ -31,7 +31,7 @@ def current_market_operation():
     return result
 
 
-# http://localhost:8000/data_hub/current_market_operation
+# http://localhost:8000/data_hub/current_stock_price_full/AAPL,MSFT
 @data_hub.route('current_stock_price_full/<tickers>', methods=['GET'])
 @csrf.exempt
 def current_stock_price_full(tickers):
