@@ -196,6 +196,6 @@ def update_data_historical():
 #*****************************************************************
 #*****************************************************************
 
-# last_week_champs()
-# spider_process()
-update_data_historical()
+last_week_champs()
+spider_process()
+# update_data_historical()
