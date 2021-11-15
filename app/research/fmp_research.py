@@ -1,7 +1,7 @@
 
 import pandas as pd
 
-from app.research.fmp_wrapper import get_last_year_full_for_ticker
+from app.research.fmp_wrapper import get_last_year_full_for_ticker, get_company_info_for_ticker
 
 
 def get_fmp_stats_for_ticker(s):
@@ -25,6 +25,10 @@ def get_fmp_stats_for_ticker(s):
         buying_target_price=last_closing_adjusted_price-(last_closing_adjusted_price/100*avdropP)
 
     return avdropP, avChangeP, max_intraday_drop_percent,buying_target_price
+
+def get_company_info(s):
+    inf = get_company_info_for_ticker(s)
+    return inf
 
 if __name__ == '__main__':
     a,b,c=get_fmp_stats_for_ticker('msft')

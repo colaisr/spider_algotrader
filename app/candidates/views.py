@@ -7,6 +7,7 @@ from flask import (
 from app import csrf
 from app.email import send_email
 from app.models import Candidate
+from app.research.fmp_wrapper import get_company_info_for_ticker
 from app.research.views import research_ticker, get_info_for_ticker
 
 from flask_cors import cross_origin
@@ -25,7 +26,7 @@ def updatecandidate():
         c.reason = request.form['reason']
         c.email = request.form['email']
         c.enabled = True
-        fill_ticker_data_from_yahoo(c)
+        fill_ticker_data_from_fmp(c)
     except Exception as e:
         result = {"color_status": "danger", "message": "Error in server"}
     return json.dumps(result)
@@ -46,7 +47,7 @@ def add_by_spider():
             c.reason = "added automatically"
             c.email = 'support@algotrader.company'
             c.enabled = True
-            if not fill_ticker_data_from_yahoo(c):
+            if not fill_ticker_data_from_fmp(c):
                 print(ticker_to_add + " skept no FMP data...")
                 return "skept candidate"
         else:
@@ -64,15 +65,17 @@ def add_by_spider():
     #     return "skept"
 
 
-def fill_ticker_data_from_yahoo(c):
-    candidate_data = get_info_for_ticker(c.ticker)
+def fill_ticker_data_from_fmp(c):
+    candidate_data = get_company_info_for_ticker(c.ticker)
     if candidate_data is not None:
-        c.company_name = candidate_data['longName']
-        c.full_description = candidate_data['longBusinessSummary']
+        c.company_name = candidate_data['companyName']
+        c.full_description = candidate_data['description']
         c.exchange = candidate_data['exchange']
+        c.exchange_short = candidate_data['exchangeShortName']
         c.industry = candidate_data['industry']
         c.sector = candidate_data['sector']
-        c.logo = candidate_data['logo_url']
+        c.logo = candidate_data['image']
+        c.website = candidate_data['website']
         c.update_candidate()
         research_ticker(c.ticker)
         return True

@@ -23,4 +23,11 @@ def historical_daily_price_full():
     return result
 
 
+# http://localhost:8000/data_hub/current_market_operation
+@data_hub.route('current_market_operation/', methods=['GET'])
+@csrf.exempt
+def current_market_operation():
+    result=current_market_operation_w()
+    return result
+
 
