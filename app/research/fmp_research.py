@@ -26,9 +26,11 @@ def get_fmp_stats_for_ticker(s):
 
     return avdropP, avChangeP, max_intraday_drop_percent,buying_target_price
 
+
 def get_company_info(s):
     inf = get_company_info_for_ticker(s)
     return inf
+
 
 if __name__ == '__main__':
     a,b,c=get_fmp_stats_for_ticker('msft')
