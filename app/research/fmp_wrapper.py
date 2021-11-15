@@ -83,6 +83,14 @@ def current_stock_price_full_w(t):
     toJson=json.dumps(data)
     return toJson
 
+def current_stock_price_short_w(t):
+    #wrapper for current us market open/closed state
+    url = (
+        "https://financialmodelingprep.com/api/v3/quote-short/"+t+"?apikey="+FMP_KEY)
+    data=get_jsonparsed_data(url)
+    toJson=json.dumps(data)
+    return toJson
+
 if __name__ == '__main__':
     get_last_year_full_for_ticker('msft')
 
