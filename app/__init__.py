@@ -41,6 +41,9 @@ def create_app(config):
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     # not using sqlalchemy event system, hence disabling it
 
+    #for beautyful json return
+    app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+
     Config[config_name].init_app(app)
     # migrate.init_app(app, db)
 

@@ -20,7 +20,7 @@ data_hub = Blueprint('data_hub', __name__)
 def historical_daily_price_full():
     ticker = request.args.get('ticker')
     result=historical_daily_price_full_w(ticker)
-    return result
+    return jsonify(result)
 
 
 # http://localhost:8000/data_hub/current_market_operation
@@ -28,7 +28,7 @@ def historical_daily_price_full():
 @csrf.exempt
 def current_market_operation():
     result=current_market_operation_w()
-    return result
+    return jsonify(result)
 
 
 # http://localhost:8000/data_hub/current_stock_price_full/AAPL,MSFT
@@ -36,13 +36,22 @@ def current_market_operation():
 @csrf.exempt
 def current_stock_price_full(tickers):
     result=current_stock_price_full_w(tickers)
-    return result
+    return jsonify(result)
 
 # http://localhost:8000/data_hub/current_stock_price_short/AAPL,MSFT
 @data_hub.route('current_stock_price_short/<tickers>', methods=['GET'])
 @csrf.exempt
 def current_stock_price_short(tickers):
     result=current_stock_price_short_w(tickers)
-    return result
+    return jsonify(result)
+
+# http://localhost:8000/data_hub/stock_news?tickers=AAPL,FB,GOOG,AMZN&limit=50
+@data_hub.route('stock_news', methods=['GET'])
+@csrf.exempt
+def stock_news():
+    tickers = request.args.get('tickers')
+    limit = request.args.get('limit')
+    result=stock_news_w(tickers,limit)
+    return jsonify(result)
 
 

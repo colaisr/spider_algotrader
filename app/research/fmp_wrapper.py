@@ -48,9 +48,7 @@ def historical_daily_price_full_w(t):
     #wrapper for ticker info
     url = (
         "https://financialmodelingprep.com/api/v3/historical-price-full/"+t+"?serietype=line&apikey="+FMP_KEY)
-    context = ssl.create_default_context(cafile=certifi.where())
-    response = urlopen(url, context=context)
-    data = json.load(response)
+    data=get_jsonparsed_data(url)
     return data
 
 def current_market_operation_w():
@@ -58,8 +56,7 @@ def current_market_operation_w():
     url = (
         "https://financialmodelingprep.com/api/v3/is-the-market-open?apikey="+FMP_KEY)
     data=get_jsonparsed_data(url)
-    toJson=json.dumps(data)
-    return toJson
+    return data
 
 def get_company_info_for_ticker(t):
     #used on adding ticker
@@ -73,16 +70,21 @@ def current_stock_price_full_w(t):
     url = (
         "https://financialmodelingprep.com/api/v3/quote/"+t+"?apikey="+FMP_KEY)
     data=get_jsonparsed_data(url)
-    toJson=json.dumps(data)
-    return toJson
+    return data
 
 def current_stock_price_short_w(t):
     #wrapper for current us market open/closed state
     url = (
         "https://financialmodelingprep.com/api/v3/quote-short/"+t+"?apikey="+FMP_KEY)
     data=get_jsonparsed_data(url)
-    toJson=json.dumps(data)
-    return toJson
+    return data
+
+def stock_news_w(t,l):
+    #wrapper for stock news
+    url = (
+        "https://financialmodelingprep.com/api/v3/stock_news?tickers="+t+"&limit="+str(l)+"&apikey="+FMP_KEY)
+    data=get_jsonparsed_data(url)
+    return data
 
 if __name__ == '__main__':
     get_last_year_full_for_ticker('msft')
