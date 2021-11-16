@@ -86,6 +86,18 @@ def stock_news_w(t,l):
     data=get_jsonparsed_data(url)
     return data
 
+def average_sector_pe_today(sector):
+    #wrapper today pe average
+    today=str(datetime.datetime.utcnow().date())
+    url = (
+        "https://financialmodelingprep.com/api/v4/sector_price_earning_ratio?date="+today+"&exchange=NYSE&apikey="+FMP_KEY)
+    data=get_jsonparsed_data(url)
+    for s in data:
+        d=s['sector']
+        if d==sector:
+            return s
+    return data
+
 if __name__ == '__main__':
     get_last_year_full_for_ticker('msft')
 

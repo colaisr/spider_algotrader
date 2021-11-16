@@ -54,4 +54,10 @@ def stock_news():
     result=stock_news_w(tickers,limit)
     return jsonify(result)
 
+# http://localhost:8000/data_hub/average_sector_pe_today/Energy
+@data_hub.route('average_sector_pe_today/<sector>', methods=['GET'])
+@csrf.exempt
+def average_pe(sector):
+    result=average_sector_pe_today(sector)
+    return jsonify(result)
 
