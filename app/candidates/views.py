@@ -65,6 +65,29 @@ def add_by_spider():
     #     return "skept"
 
 
+@candidates.route('update_ticker_historical', methods=['POST'])
+@csrf.exempt
+def update_ticker_historical():
+    try:
+        candidates = Candidate.query.all()
+        if candidates is not None:
+            for c in candidates:
+                candidate_data = get_company_info_for_ticker(c.ticker)
+                if candidate_data is not None:
+                    c.company_name = candidate_data['companyName']
+                    c.full_description = candidate_data['description']
+                    c.exchange = candidate_data['exchange']
+                    c.exchange_short = candidate_data['exchangeShortName']
+                    c.industry = candidate_data['industry']
+                    c.sector = candidate_data['sector']
+                    c.logo = candidate_data['image']
+                    c.website = candidate_data['website']
+                    c.update_candidate()
+    except Exception as e:
+        print(e)
+    return "updated"
+
+
 def fill_ticker_data_from_fmp(c):
     candidate_data = get_company_info_for_ticker(c.ticker)
     if candidate_data is not None:

@@ -166,7 +166,6 @@ def get_info_ticker(ticker):
     return jsonify(info)
 
 
-
 def research_ticker(ticker):
     print('started')
     print(datetime.now())
@@ -174,32 +173,32 @@ def research_ticker(ticker):
     marketdata.ticker = ticker
     sections = []
     try:
-        m=2
-        tr=get_tiprank_for_ticker(ticker)
-        marketdata.tipranks=tr['smartScore']
-        marketdata.twelve_month_momentum=tr['technicalsTwelveMonthsMomentum']
-        marketdata.tr_hedgeFundTrend=tr['hedgeFundTrendValue']
-        marketdata.tr_bloggerSectorAvg=tr['bloggerSectorAvg']
-        marketdata.tr_bloggerBullishSentiment=tr['bloggerBullishSentiment']
-        marketdata.tr_insidersLast3MonthsSum=tr['insidersLast3MonthsSum']
-        marketdata.tr_newsSentimentsBearishPercent=tr['newsSentimentsBearishPercent']
-        marketdata.tr_newsSentimentsBullishPercent=tr['newsSentimentsBullishPercent']
-        marketdata.tr_priceTarget=tr['priceTarget']
-        marketdata.tr_fundamentalsReturnOnEquity=tr['fundamentalsReturnOnEquity']
-        marketdata.tr_fundamentalsAssetGrowth=tr['fundamentalsAssetGrowth']
-        marketdata.tr_sma=tr['sma']
-        marketdata.tr_analystConsensus=tr['analystConsensus']
-        marketdata.tr_hedgeFundTrend=tr['hedgeFundTrend']
-        marketdata.tr_insiderTrend=tr['insiderTrend']
-        marketdata.tr_newsSentiment=tr['newsSentiment']
-        marketdata.tr_bloggerConsensus=tr['bloggerConsensus']
+        m = 2
+        tr = get_tiprank_for_ticker(ticker)
+        marketdata.tipranks = tr['smartScore']
+        marketdata.twelve_month_momentum = tr['technicalsTwelveMonthsMomentum']
+        marketdata.tr_hedgeFundTrend = tr['hedgeFundTrendValue']
+        marketdata.tr_bloggerSectorAvg = tr['bloggerSectorAvg']
+        marketdata.tr_bloggerBullishSentiment = tr['bloggerBullishSentiment']
+        marketdata.tr_insidersLast3MonthsSum = tr['insidersLast3MonthsSum']
+        marketdata.tr_newsSentimentsBearishPercent = tr['newsSentimentsBearishPercent']
+        marketdata.tr_newsSentimentsBullishPercent = tr['newsSentimentsBullishPercent']
+        marketdata.tr_priceTarget = tr['priceTarget']
+        marketdata.tr_fundamentalsReturnOnEquity = tr['fundamentalsReturnOnEquity']
+        marketdata.tr_fundamentalsAssetGrowth = tr['fundamentalsAssetGrowth']
+        marketdata.tr_sma = tr['sma']
+        marketdata.tr_analystConsensus = tr['analystConsensus']
+        marketdata.tr_hedgeFundTrend = tr['hedgeFundTrend']
+        marketdata.tr_insiderTrend = tr['insiderTrend']
+        marketdata.tr_newsSentiment = tr['newsSentiment']
+        marketdata.tr_bloggerConsensus = tr['bloggerConsensus']
 
     except:
         sections.append("tiprank")
         print("ERROR in MarketDataResearch for " + ticker + ". Section: tiprank")
 
     try:
-        marketdata.yahoo_avdropP, marketdata.yahoo_avspreadP, marketdata.max_intraday_drop_percent,marketdata.buying_target_price_fmp = get_fmp_stats_for_ticker(
+        marketdata.yahoo_avdropP, marketdata.yahoo_avspreadP, marketdata.max_intraday_drop_percent, marketdata.buying_target_price_fmp = get_fmp_stats_for_ticker(
             ticker)
     except:
         sections.append("yahooStats")
