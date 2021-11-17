@@ -98,6 +98,13 @@ def average_sector_pe_today(sector):
             return s
     return data
 
+def insider_actions_per_ticker(t):
+    #wrapper for insiders actions
+    url = (
+        "https://financialmodelingprep.com/api/v4/insider-trading?symbol="+t+"&limit=100&apikey="+FMP_KEY)
+    data=get_jsonparsed_data(url)
+    return data
+
 if __name__ == '__main__':
     get_last_year_full_for_ticker('msft')
 
