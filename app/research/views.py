@@ -155,7 +155,7 @@ def alltickers():
 
 @csrf.exempt
 @research.route('/get_info_ticker/<ticker>', methods=['GET'])
-# @cross_origin(origin='*', headers=['Content-Type-Type', 'Authorization'])
+@cross_origin(origin='*', headers=['Content-Type-Type', 'Authorization'])
 def get_info_ticker(ticker):
     print('company info requested')
     # info = get_info_for_ticker(ticker)
