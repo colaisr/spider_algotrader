@@ -99,6 +99,7 @@ def fill_ticker_data_from_fmp(c):
         c.sector = candidate_data['sector']
         c.logo = candidate_data['image']
         c.website = candidate_data['website']
+        c.isActivelyTrading_fmp = candidate_data['isActivelyTrading']
         c.update_candidate()
         research_ticker(c.ticker)
         return True
