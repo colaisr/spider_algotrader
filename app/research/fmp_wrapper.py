@@ -69,7 +69,10 @@ def get_company_info_for_ticker(t):
     url = (
             "https://financialmodelingprep.com/api/v3/profile/" + t + "?apikey=" + FMP_KEY)
     data = get_jsonparsed_data(url)
-    return data[0]
+    if len(data)>0:
+        return data[0]
+    else:
+        return data
 
 
 def current_stock_price_full_w(t):
