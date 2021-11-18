@@ -70,3 +70,9 @@ def insider_actions(ticker):
     result=insider_actions_per_ticker(ticker)
     return jsonify(result)
 
+# http://localhost:8000/data_hub/press_relises/AAPL
+@data_hub.route('press_relises/<ticker>', methods=['GET'])
+@csrf.exempt
+def press_relises(ticker):
+    result=press_relises_per_ticker(ticker)
+    return jsonify(result)

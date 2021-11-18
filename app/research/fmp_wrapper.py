@@ -116,6 +116,13 @@ def insider_actions_per_ticker(t):
     data=get_jsonparsed_data(url)
     return data
 
+def press_relises_per_ticker(t):
+    #wrapper for press relises
+    url = (
+        "https://financialmodelingprep.com/api/v3/press-releases/"+t+"?limit=100&apikey="+FMP_KEY)
+    data=get_jsonparsed_data(url)
+    return data
+
 if __name__ == '__main__':
     get_last_year_full_for_ticker('msft')
 
