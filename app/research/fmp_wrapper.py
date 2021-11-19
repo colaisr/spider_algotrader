@@ -82,6 +82,13 @@ def current_stock_price_full_w(t):
     data = get_jsonparsed_data(url)
     return data
 
+def search_w(t):
+    # wrapper for current us market open/closed state
+    url = (
+            "https://financialmodelingprep.com/api/v3/search?query=" + t + "&limit=30&exchange=NASDAQ,NYSE,AMEX&apikey=" + FMP_KEY)
+    data = get_jsonparsed_data(url)
+    return data
+
 
 def current_stock_price_short_w(t):
     # wrapper for current us market open/closed state
