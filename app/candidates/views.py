@@ -44,12 +44,13 @@ def add_by_spider():
             print('adding ' + ticker_to_add)
             c = Candidate()
             c.ticker = ticker_to_add
-            c.reason = "added automatically"
+            c.reason = ""
             c.email = 'support@algotrader.company'
             c.enabled = True
             if not fill_ticker_data_from_fmp(c):
                 print(ticker_to_add + " skept no FMP data...")
                 return "skept candidate"
+            return "success"
         else:
             return "candidate exist"
     except:
