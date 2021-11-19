@@ -6,7 +6,6 @@ from flask import (
 
 from app import csrf
 
-
 from flask_cors import cross_origin
 
 from app.research.fmp_wrapper import *
@@ -63,16 +62,18 @@ def average_pe(sector):
     result = average_sector_pe_today(sector)
     return jsonify(result)
 
+
 # http://localhost:8000/data_hub/insider_actions/AAPL
 @data_hub.route('insider_actions/<ticker>', methods=['GET'])
 @csrf.exempt
 def insider_actions(ticker):
-    result=insider_actions_per_ticker(ticker)
+    result = insider_actions_per_ticker(ticker)
     return jsonify(result)
+
 
 # http://localhost:8000/data_hub/press_relises/AAPL
 @data_hub.route('press_relises/<ticker>', methods=['GET'])
 @csrf.exempt
 def press_relises(ticker):
-    result=press_relises_per_ticker(ticker)
+    result = press_relises_per_ticker(ticker)
     return jsonify(result)

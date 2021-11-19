@@ -69,7 +69,7 @@ def get_company_info_for_ticker(t):
     url = (
             "https://financialmodelingprep.com/api/v3/profile/" + t + "?apikey=" + FMP_KEY)
     data = get_jsonparsed_data(url)
-    if len(data)>0:
+    if len(data) > 0:
         return data[0]
     else:
         return data
@@ -112,23 +112,22 @@ def average_sector_pe_today(sector):
             return s
     return data
 
+
 def insider_actions_per_ticker(t):
-    #wrapper for insiders actions
+    # wrapper for insiders actions
     url = (
-        "https://financialmodelingprep.com/api/v4/insider-trading?symbol="+t+"&limit=100&apikey="+FMP_KEY)
-    data=get_jsonparsed_data(url)
+            "https://financialmodelingprep.com/api/v4/insider-trading?symbol=" + t + "&limit=100&apikey=" + FMP_KEY)
+    data = get_jsonparsed_data(url)
     return data
 
+
 def press_relises_per_ticker(t):
-    #wrapper for press relises
+    # wrapper for press relises
     url = (
-        "https://financialmodelingprep.com/api/v3/press-releases/"+t+"?limit=100&apikey="+FMP_KEY)
-    data=get_jsonparsed_data(url)
+            "https://financialmodelingprep.com/api/v3/press-releases/" + t + "?limit=100&apikey=" + FMP_KEY)
+    data = get_jsonparsed_data(url)
     return data
+
 
 if __name__ == '__main__':
     get_last_year_full_for_ticker('msft')
-
-
-
-

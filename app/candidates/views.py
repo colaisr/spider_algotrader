@@ -90,7 +90,13 @@ def update_ticker_historical():
 
 def fill_ticker_data_from_fmp(c):
     candidate_data = get_company_info_for_ticker(c.ticker)
-    if candidate_data is not None:
+    if candidate_data is None or len(candidate_data) == 0 \
+            or candidate_data['cik'] is None \
+            or candidate_data['cik'] == '' \
+            or candidate_data['isEtf'] \
+            or not candidate_data['isActivelyTrading']:
+        return False
+    else:
         c.company_name = candidate_data['companyName']
         c.full_description = candidate_data['description']
         c.exchange = candidate_data['exchange']
@@ -103,5 +109,13 @@ def fill_ticker_data_from_fmp(c):
         c.update_candidate()
         research_ticker(c.ticker)
         return True
-    return False
+
+
+@candidates.route('test/<ticker>', methods=['GET'])
+def test(ticker):
+    c = Candidate()
+    c.ticker=ticker
+    fill_ticker_data_from_fmp(c)
+    return 'test'
+
 
