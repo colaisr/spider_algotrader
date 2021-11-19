@@ -77,3 +77,10 @@ def insider_actions(ticker):
 def press_relises(ticker):
     result = press_relises_per_ticker(ticker)
     return jsonify(result)
+
+# http://localhost:8000/data_hub/search/t
+@data_hub.route('search/<query>', methods=['GET'])
+@csrf.exempt
+def search(query):
+    result = search_w(query)
+    return jsonify(result)
