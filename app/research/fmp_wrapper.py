@@ -87,6 +87,8 @@ def search_w(t):
     url = (
             "https://financialmodelingprep.com/api/v3/search?query=" + t + "&limit=30&exchange=NASDAQ,NYSE,AMEX&apikey=" + FMP_KEY)
     data = get_jsonparsed_data(url)
+    for r in data:
+        r['info_page']='https://www.algotrader.company/candidates/info/'+r['symbol']
     return data
 
 
