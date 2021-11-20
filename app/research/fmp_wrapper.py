@@ -137,6 +137,14 @@ def press_relises_per_ticker(t):
     data = get_jsonparsed_data(url)
     return data
 
+def finacial_statement_history_w(t):
+    # wrapper for yearly financial statement
+    url = (
+            "https://financialmodelingprep.com/api/v3/income-statement/"+t+"?limit=120&apikey=" + FMP_KEY)
+    data = get_jsonparsed_data(url)
+    return data
+
+
 
 if __name__ == '__main__':
     get_last_year_full_for_ticker('msft')

@@ -84,3 +84,10 @@ def press_relises(ticker):
 def search(query):
     result = search_w(query)
     return jsonify(result)
+
+# http://localhost:8000/data_hub/financial_statements/AAPL
+@data_hub.route('financial_statements/<ticker>', methods=['GET'])
+@csrf.exempt
+def financial_statements(ticker):
+    result = finacial_statement_history_w(ticker)
+    return jsonify(result)

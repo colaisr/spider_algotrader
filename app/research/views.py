@@ -29,11 +29,13 @@ research = Blueprint('research', __name__)
 def updatefgiscore():
     try:
         fgi_score = Fgi_score()
-        val, val_text, updated_cnn = get_cnn_fgi_rate()
+        # val, val_text, updated_cnn = get_cnn_fgi_rate()
+        val = get_cnn_fgi_rate()
+
         fgi_score.fgi_value = val
-        fgi_score.fgi_text = val_text
+        # fgi_score.fgi_text = val_text
         fgi_score.score_time = datetime.utcnow()
-        fgi_score.updated_cnn = updated_cnn
+        # fgi_score.updated_cnn = updated_cnn
         fgi_score.add_score()
     except Exception as e:
         print('problem with FGI', e)
