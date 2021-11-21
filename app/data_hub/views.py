@@ -91,3 +91,20 @@ def search(query):
 def financial_statements(ticker):
     result = finacial_statement_history_w(ticker)
     return jsonify(result)
+
+# http://localhost:8000/data_hub/financial_ttm/AAPL
+@data_hub.route('financial_ttm/<ticker>', methods=['GET'])
+@csrf.exempt
+def financial_ttm(ticker):
+    result = financial_ttm_w(ticker)
+    return jsonify(result)
+
+# http://localhost:8000/data_hub/technical_indicators?ticker=AAPL&type=ema
+#options: ema , wma , dema ,tema , williams , rsi ,adx, standardDeviation
+@data_hub.route('technical_indicators', methods=['GET'])
+@csrf.exempt
+def technical_indicators():
+    ticker = request.args.get('ticker')
+    type = request.args.get('type')
+    result = technical_indicator_w(ticker, type)
+    return jsonify(result)

@@ -144,6 +144,19 @@ def finacial_statement_history_w(t):
     data = get_jsonparsed_data(url)
     return data
 
+def financial_ttm_w(t):
+    # wrapper for yearly financial statement
+    url = (
+            "https://financialmodelingprep.com/api/v3/ratios-ttm/"+t+"?apikey=" + FMP_KEY)
+    data = get_jsonparsed_data(url)
+    return data
+
+def technical_indicator_w(ticker, type):
+    # wrapper for stock news
+    url = ("https://financialmodelingprep.com/api/v3/technical_indicator/daily/"+ticker+"?period=10&type="+type+"&apikey=" + FMP_KEY)
+    data = get_jsonparsed_data(url)
+    return data
+
 
 
 if __name__ == '__main__':
