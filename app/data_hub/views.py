@@ -1,4 +1,6 @@
 import json
+
+
 from flask import (
     Blueprint,
     request, jsonify
@@ -11,6 +13,12 @@ from flask_cors import cross_origin
 from app.research.fmp_wrapper import *
 
 data_hub = Blueprint('data_hub', __name__)
+
+ALL_TICKERS=[]
+with open('all_tickers.json') as json_file:
+    ALL_TICKERS = json.load(json_file)
+    # ALL_TICKERS=sorted(ALL_TICKERS, key=lambda d: d['symbol'])
+
 
 
 # http://localhost:8000/data_hub/historical_daily_price_full/msft
@@ -84,6 +92,17 @@ def press_relises(ticker):
 def search(query):
     result = search_w(query)
     return jsonify(result)
+
+# http://localhost:8000/data_hub/search_quick/t
+@data_hub.route('search_quick/<query>', methods=['GET'])
+@csrf.exempt
+def search_quick(query):
+    result_tickers=list(filter(lambda record: query.lower() in record['symbol'].lower() \
+                                      and (record['exchangeShortName'] =='AMEX' or record['exchangeShortName'] =='NASDAQ' or record['exchangeShortName'] =='NYSE') and record['type'] =='stock', ALL_TICKERS))
+    result_names=list(filter(lambda record: query.lower() in record['name'].lower() \
+                                      and (record['exchangeShortName'] =='AMEX' or record['exchangeShortName'] =='NASDAQ' or record['exchangeShortName'] =='NYSE') and record['type'] =='stock', ALL_TICKERS))
+    result_tickers.append(result_names)
+    return jsonify(result_tickers[:10])
 
 # http://localhost:8000/data_hub/financial_statements/AAPL
 @data_hub.route('financial_statements/<ticker>', methods=['GET'])
