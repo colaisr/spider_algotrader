@@ -99,6 +99,20 @@ def financial_ttm(ticker):
     result = financial_ttm_w(ticker)
     return jsonify(result)
 
+# http://localhost:8000/data_hub/analysts_recomendations/AAPL
+@data_hub.route('analysts_recomendations/<ticker>', methods=['GET'])
+@csrf.exempt
+def analysts_recomendations(ticker):
+    result = analysts_recomendations_w(ticker)
+    return jsonify(result)
+
+# http://localhost:8000/data_hub/analysts_estimations/AAPL
+@data_hub.route('analysts_estimations/<ticker>', methods=['GET'])
+@csrf.exempt
+def analysts_estimations(ticker):
+    result = analysts_estimations_w(ticker)
+    return jsonify(result)
+
 # http://localhost:8000/data_hub/technical_indicators?ticker=AAPL&type=ema
 #options: ema , wma , dema ,tema , williams , rsi ,adx, standardDeviation
 @data_hub.route('technical_indicators', methods=['GET'])

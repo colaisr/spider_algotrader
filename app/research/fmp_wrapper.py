@@ -157,7 +157,19 @@ def technical_indicator_w(ticker, type):
     data = get_jsonparsed_data(url)
     return data
 
-
+def analysts_recomendations_w(t):
+    # wrapper for yearly financial statement
+    url = (
+            "https://financialmodelingprep.com/api/v3/analyst-stock-recommendations/"+t+"?limit=30&apikey=" + FMP_KEY)
+    data = get_jsonparsed_data(url)
+    return data
+def analysts_estimations_w(t):
+    # wrapper for yearly financial statement
+    url = (
+            "https://financialmodelingprep.com/api/v3/analyst-estimates/"+t+"?period=quarter&limit=10&apikey=" + FMP_KEY)
+    data = get_jsonparsed_data(url)
+    return data
 
 if __name__ == '__main__':
     get_last_year_full_for_ticker('msft')
+
