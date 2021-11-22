@@ -128,6 +128,7 @@ def spider_process():
     start_time = datetime.now()
     print(f'****Starting Updater spider for all existing Candidates {start_time.strftime("%d/%m/%Y %H:%M:%S")}')
     tickers = get_all_tickers()
+    # tickers=['VRNOF', 'OJSCY', 'OGZPY']
     # already_updated_tickers = 0
     error_tickers = []
     research_error_tickers = []
@@ -138,16 +139,16 @@ def spider_process():
 
     num_of_tickers = len(tickers)
 
-    if len(error_tickers) > 0 or len(research_error_tickers) > 0:
-        tickers = []
-        tickers = error_tickers
-        error_tickers = []
-        if len(research_error_tickers) > 0:
-            for item in research_error_tickers:
-                for k, v in item.items():
-                    tickers.append(k)
-            research_error_tickers = []
-        already_updated_tickers, error_status, percent, counter = update_market_data(tickers, update_times, research_error_tickers, error_tickers, percent, counter)
+    # if len(error_tickers) > 0 or len(research_error_tickers) > 0:
+    #     tickers = []
+    #     tickers = error_tickers
+    #     error_tickers = []
+    #     if len(research_error_tickers) > 0:
+    #         for item in research_error_tickers:
+    #             for k, v in item.items():
+    #                 tickers.append(k)
+    #         research_error_tickers = []
+    #     already_updated_tickers, error_status, percent, counter = update_market_data(tickers, update_times, research_error_tickers, error_tickers, percent, counter)
 
     update_spider_process_status(percent, 2)
 

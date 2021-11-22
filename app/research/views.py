@@ -198,8 +198,8 @@ def research_ticker(ticker):
         marketdata.yahoo_avdropP, marketdata.yahoo_avspreadP, marketdata.max_intraday_drop_percent, marketdata.buying_target_price_fmp = get_fmp_stats_for_ticker(
             ticker)
     except:
-        sections.append("yahooStats")
-        print("ERROR in MarketDataResearch for " + ticker + " section: yahooStats")
+        sections.append("fmpStatus")
+        print("ERROR in MarketDataResearch for " + ticker + " section: fmpStats")
 
     try:
         info = get_info_for_ticker(ticker)
