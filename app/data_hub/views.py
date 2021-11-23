@@ -14,6 +14,8 @@ from app.research.fmp_wrapper import *
 data_hub = Blueprint('data_hub', __name__)
 
 ALL_TICKERS = []
+EXCHANGE = ['AMEX', 'NYSE', 'NASDAQ']
+
 with open('all_tickers.json') as json_file:
     ALL_TICKERS = json.load(json_file)
     # ALL_TICKERS=sorted(ALL_TICKERS, key=lambda d: d['symbol'])
@@ -97,15 +99,19 @@ def search(query):
 @data_hub.route('search_quick/<query>', methods=['GET'])
 @csrf.exempt
 def search_quick(query):
-    result_tickers = list(filter(lambda record: query.lower() in record['symbol'].lower() \
-                                                and (record['exchangeShortName'] == 'AMEX' or record[
-        'exchangeShortName'] == 'NASDAQ' or record['exchangeShortName'] == 'NYSE') and record['type'] == 'stock',
-                                 ALL_TICKERS))
-    result_names = list(filter(lambda record: query.lower() in record['name'].lower() \
-                                              and (record['exchangeShortName'] == 'AMEX' or record[
-        'exchangeShortName'] == 'NASDAQ' or record['exchangeShortName'] == 'NYSE') and record['type'] == 'stock',
-                               ALL_TICKERS))
-    result_tickers.append(result_names)
+    result_tickers = list(filter(lambda record: record['symbol'].lower().startswith(query.lower()) and record['exchangeShortName'] in EXCHANGE and record['type'] == 'stock', ALL_TICKERS))
+    result_names = list(filter(lambda record: record['name'].lower().startswith(query.lower()) and record['exchangeShortName'] in EXCHANGE and record['type'] == 'stock', ALL_TICKERS))
+    if len(result_names) > 0:
+        result_tickers.append(result_names)
+    # result_tickers = list(filter(lambda record: query.lower() in record['symbol'].lower() \
+    #                                             and (record['exchangeShortName'] == 'AMEX' or record[
+    #     'exchangeShortName'] == 'NASDAQ' or record['exchangeShortName'] == 'NYSE') and record['type'] == 'stock',
+    #                              ALL_TICKERS))
+    # result_names = list(filter(lambda record: query.lower() in record['name'].lower() \
+    #                                           and (record['exchangeShortName'] == 'AMEX' or record[
+    #     'exchangeShortName'] == 'NASDAQ' or record['exchangeShortName'] == 'NYSE') and record['type'] == 'stock',
+    #                            ALL_TICKERS))
+    # result_tickers.append(result_names)
     return jsonify(result_tickers[:10])
 
 
