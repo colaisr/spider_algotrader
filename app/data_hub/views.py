@@ -1,6 +1,5 @@
 import json
 
-
 from flask import (
     Blueprint,
     request, jsonify
@@ -14,11 +13,10 @@ from app.research.fmp_wrapper import *
 
 data_hub = Blueprint('data_hub', __name__)
 
-ALL_TICKERS=[]
+ALL_TICKERS = []
 with open('all_tickers.json') as json_file:
     ALL_TICKERS = json.load(json_file)
     # ALL_TICKERS=sorted(ALL_TICKERS, key=lambda d: d['symbol'])
-
 
 
 # http://localhost:8000/data_hub/historical_daily_price_full/msft
@@ -86,6 +84,7 @@ def press_relises(ticker):
     result = press_relises_per_ticker(ticker)
     return jsonify(result)
 
+
 # http://localhost:8000/data_hub/search/t
 @data_hub.route('search/<query>', methods=['GET'])
 @csrf.exempt
@@ -93,16 +92,22 @@ def search(query):
     result = search_w(query)
     return jsonify(result)
 
+
 # http://localhost:8000/data_hub/search_quick/t
 @data_hub.route('search_quick/<query>', methods=['GET'])
 @csrf.exempt
 def search_quick(query):
-    result_tickers=list(filter(lambda record: query.lower() in record['symbol'].lower() \
-                                      and (record['exchangeShortName'] =='AMEX' or record['exchangeShortName'] =='NASDAQ' or record['exchangeShortName'] =='NYSE') and record['type'] =='stock', ALL_TICKERS))
-    result_names=list(filter(lambda record: query.lower() in record['name'].lower() \
-                                      and (record['exchangeShortName'] =='AMEX' or record['exchangeShortName'] =='NASDAQ' or record['exchangeShortName'] =='NYSE') and record['type'] =='stock', ALL_TICKERS))
+    result_tickers = list(filter(lambda record: query.lower() in record['symbol'].lower() \
+                                                and (record['exchangeShortName'] == 'AMEX' or record[
+        'exchangeShortName'] == 'NASDAQ' or record['exchangeShortName'] == 'NYSE') and record['type'] == 'stock',
+                                 ALL_TICKERS))
+    result_names = list(filter(lambda record: query.lower() in record['name'].lower() \
+                                              and (record['exchangeShortName'] == 'AMEX' or record[
+        'exchangeShortName'] == 'NASDAQ' or record['exchangeShortName'] == 'NYSE') and record['type'] == 'stock',
+                               ALL_TICKERS))
     result_tickers.append(result_names)
     return jsonify(result_tickers[:10])
+
 
 # http://localhost:8000/data_hub/financial_statements/AAPL
 @data_hub.route('financial_statements/<ticker>', methods=['GET'])
@@ -111,12 +116,14 @@ def financial_statements(ticker):
     result = finacial_statement_history_w(ticker)
     return jsonify(result)
 
+
 # http://localhost:8000/data_hub/financial_ttm/AAPL
 @data_hub.route('financial_ttm/<ticker>', methods=['GET'])
 @csrf.exempt
 def financial_ttm(ticker):
     result = financial_ttm_w(ticker)
     return jsonify(result)
+
 
 # http://localhost:8000/data_hub/analysts_recomendations/AAPL
 @data_hub.route('analysts_recomendations/<ticker>', methods=['GET'])
@@ -125,6 +132,7 @@ def analysts_recomendations(ticker):
     result = analysts_recomendations_w(ticker)
     return jsonify(result)
 
+
 # http://localhost:8000/data_hub/analysts_estimations/AAPL
 @data_hub.route('analysts_estimations/<ticker>', methods=['GET'])
 @csrf.exempt
@@ -132,8 +140,9 @@ def analysts_estimations(ticker):
     result = analysts_estimations_w(ticker)
     return jsonify(result)
 
+
 # http://localhost:8000/data_hub/technical_indicators?ticker=AAPL&type=ema
-#options: ema , wma , dema ,tema , williams , rsi ,adx, standardDeviation
+# options: ema , wma , dema ,tema , williams , rsi ,adx, standardDeviation
 @data_hub.route('technical_indicators', methods=['GET'])
 @csrf.exempt
 def technical_indicators():

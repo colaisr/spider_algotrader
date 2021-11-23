@@ -82,13 +82,14 @@ def current_stock_price_full_w(t):
     data = get_jsonparsed_data(url)
     return data
 
+
 def search_w(t):
     # wrapper for current us market open/closed state
     url = (
             "https://financialmodelingprep.com/api/v3/search?query=" + t + "&limit=30&exchange=NASDAQ,NYSE,AMEX&apikey=" + FMP_KEY)
     data = get_jsonparsed_data(url)
-    for r in data:
-        r['info_page']='https://www.algotrader.company/candidates/info/'+r['symbol']
+    # for r in data:
+    #     r['info_page'] = 'https://www.algotrader.company/candidates/info/' + r['symbol']
     return data
 
 
@@ -137,39 +138,46 @@ def press_relises_per_ticker(t):
     data = get_jsonparsed_data(url)
     return data
 
+
 def finacial_statement_history_w(t):
     # wrapper for yearly financial statement
     url = (
-            "https://financialmodelingprep.com/api/v3/income-statement/"+t+"?limit=120&apikey=" + FMP_KEY)
+            "https://financialmodelingprep.com/api/v3/income-statement/" + t + "?limit=120&apikey=" + FMP_KEY)
     data = get_jsonparsed_data(url)
     return data
+
 
 def financial_ttm_w(t):
     # wrapper for yearly financial statement
     url = (
-            "https://financialmodelingprep.com/api/v3/ratios-ttm/"+t+"?apikey=" + FMP_KEY)
+            "https://financialmodelingprep.com/api/v3/ratios-ttm/" + t + "?apikey=" + FMP_KEY)
     data = get_jsonparsed_data(url)
     return data
 
+
 def technical_indicator_w(ticker, type):
     # wrapper for stock news
-    url = ("https://financialmodelingprep.com/api/v3/technical_indicator/daily/"+ticker+"?period=10&type="+type+"&apikey=" + FMP_KEY)
+    url = (
+                "https://financialmodelingprep.com/api/v3/technical_indicator/daily/" + ticker + "?period=10&type=" + type + "&apikey=" + FMP_KEY)
     data = get_jsonparsed_data(url)
     return data
+
 
 def analysts_recomendations_w(t):
     # wrapper for yearly financial statement
     url = (
-            "https://financialmodelingprep.com/api/v3/analyst-stock-recommendations/"+t+"?limit=30&apikey=" + FMP_KEY)
+            "https://financialmodelingprep.com/api/v3/analyst-stock-recommendations/" + t + "?limit=30&apikey=" + FMP_KEY)
     data = get_jsonparsed_data(url)
     return data
+
+
 def analysts_estimations_w(t):
     # wrapper for yearly financial statement
     url = (
-            "https://financialmodelingprep.com/api/v3/analyst-estimates/"+t+"?period=quarter&limit=10&apikey=" + FMP_KEY)
+            "https://financialmodelingprep.com/api/v3/analyst-estimates/" + t + "?period=quarter&limit=10&apikey=" + FMP_KEY)
     data = get_jsonparsed_data(url)
     return data
 
+
 if __name__ == '__main__':
     get_last_year_full_for_ticker('msft')
-
