@@ -26,7 +26,26 @@ def updatecandidate():
         c.reason = request.form['reason']
         c.email = request.form['email']
         c.enabled = True
-        fill_ticker_data_from_fmp(c)
+        fill_ticker_data_from_fmp(c, True)
+    except Exception as e:
+        result = {"color_status": "danger", "message": "Error in server"}
+    return json.dumps(result)
+    # return redirect(url_for('candidates.usercandidates'))
+    # return "success"
+
+
+@candidates.route('add_candidate', methods=['POST'])
+@csrf.exempt
+@cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
+def add_candidate():
+    result = {"color_status": "success", "message": "Ticker updated"}
+    try:
+        c = Candidate()
+        c.ticker = request.form['ticker']
+        c.reason = request.form['reason']
+        c.email = request.form['email']
+        c.enabled = True
+        fill_ticker_data_from_fmp(c, False)
     except Exception as e:
         result = {"color_status": "danger", "message": "Error in server"}
     return json.dumps(result)
@@ -47,7 +66,7 @@ def add_by_spider():
             c.reason = ""
             c.email = 'support@algotrader.company'
             c.enabled = True
-            if not fill_ticker_data_from_fmp(c):
+            if not fill_ticker_data_from_fmp(c, True):
                 print(ticker_to_add + " skept no FMP data...")
                 return "skept candidate"
             return "success"
@@ -89,7 +108,7 @@ def update_ticker_historical():
     return "updated"
 
 
-def fill_ticker_data_from_fmp(c):
+def fill_ticker_data_from_fmp(c, research):
     candidate_data = get_company_info_for_ticker(c.ticker)
     if candidate_data is None or len(candidate_data) == 0 \
             or candidate_data['cik'] is None \
@@ -108,7 +127,8 @@ def fill_ticker_data_from_fmp(c):
         c.website = candidate_data['website']
         c.isActivelyTrading_fmp = candidate_data['isActivelyTrading']
         c.update_candidate()
-        research_ticker(c.ticker)
+        if research:
+            research_ticker(c.ticker)
         return True
 
 
@@ -116,7 +136,7 @@ def fill_ticker_data_from_fmp(c):
 def test(ticker):
     c = Candidate()
     c.ticker=ticker
-    fill_ticker_data_from_fmp(c)
+    fill_ticker_data_from_fmp(c, False)
     return 'test'
 
 

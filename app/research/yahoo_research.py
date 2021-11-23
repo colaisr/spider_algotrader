@@ -26,11 +26,12 @@ def get_info_for_ticker(s):
     inf = yf.Ticker(s).info
     return inf
 
+
 def get_complete_graph(s):
     df = yf.download(s, period="max")
     return pd.DataFrame(df, columns=['Close'])
 
 
 if __name__ == '__main__':
-    info=get_info_for_ticker('msft')
+    info = get_info_for_ticker('smid')
     r = 3
