@@ -227,10 +227,15 @@ def research_ticker(ticker):
     ct = datetime.utcnow()
 
     marketdata.updated_server_time = ct
-    marketdata.algotrader_rank = None if marketdata.tipranks == None \
-                                         or marketdata.yahoo_rank is None \
-                                         or marketdata.yahoo_rank == None \
-        else marketdata.tipranks / 2 + 6 - marketdata.yahoo_rank
+
+    if marketdata.tipranks is None and marketdata.yahoo_rank is not None:
+        marketdata.algotrader_rank = marketdata.yahoo_rank
+    elif marketdata.tipranks is not None and marketdata.yahoo_rank is None:
+        marketdata.algotrader_rank = marketdata.tipranks
+    elif marketdata.tipranks is not None and marketdata.yahoo_rank is not None:
+        marketdata.algotrader_rank = marketdata.tipranks / 2 + 6 - marketdata.yahoo_rank
+    else:
+        None
 
     marketdata.add_ticker_data()
     error_status = 1 if len(sections) > 0 else 0
