@@ -142,7 +142,7 @@ def press_relises_per_ticker(t):
 def finacial_statement_history_w(t):
     # wrapper for yearly financial statement
     url = (
-            "https://financialmodelingprep.com/api/v3/income-statement/" + t + "?period=quarter&limit=10&apikey=" + FMP_KEY)
+            "https://financialmodelingprep.com/api/v3/income-statement/" + t + "?period=quarter&limit=9&apikey=" + FMP_KEY)
     data = get_jsonparsed_data(url)
     return data
 
