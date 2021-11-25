@@ -25,7 +25,6 @@ class TickerData(db.Model):
     stock_invest_rank = db.Column('stock_invest_rank', db.Float)
     under_priced_pnt = db.Column('under_priced_pnt', db.Float)
     twelve_month_momentum = db.Column('twelve_month_momentum', db.Float)
-    target_mean_price = db.Column('target_mean_price', db.Float)
     target_low_price_yahoo = db.Column('target_low_price_yahoo', db.Float)
     target_mean_price = db.Column('target_mean_price', db.Float)
     target_high_price_yahoo = db.Column('target_high_price_yahoo', db.Float)
