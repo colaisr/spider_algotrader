@@ -14,7 +14,7 @@ from app.models.fgi_score import Fgi_score
 from app.research.cnn_fgi_research import get_cnn_fgi_rate
 from app.research.fmp_research import get_fmp_stats_for_ticker, get_company_info
 from app.research.tipranks_research import get_tiprank_for_ticker
-from app.research.yahoo_research import get_yahoo_stats_for_ticker, get_info_for_ticker, get_complete_graph
+from app.research.yahoo_research import get_info_for_ticker
 
 from flask_cors import cross_origin
 import app.generalutils as general
@@ -206,6 +206,8 @@ def research_ticker(ticker):
         marketdata.beta = info['beta']
         try:
             marketdata.target_mean_price = info['targetMeanPrice']
+            marketdata.target_high_price_yahoo = info['targetHighPrice']
+            marketdata.target_low_price_yahoo = info['targetLowPrice']
             difference = marketdata.target_mean_price - info['currentPrice']
             marketdata.under_priced_pnt = round(difference / marketdata.target_mean_price * 100, 1)
             marketdata.yahoo_rank = info['recommendationMean']

@@ -33,5 +33,5 @@ def get_complete_graph(s):
 
 
 if __name__ == '__main__':
-    info = get_info_for_ticker('smid')
+    info = get_info_for_ticker('aapl')
     r = 3
