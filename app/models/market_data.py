@@ -28,6 +28,7 @@ class TickerData(db.Model):
     target_low_price_yahoo = db.Column('target_low_price_yahoo', db.Float)
     target_mean_price = db.Column('target_mean_price', db.Float)
     target_high_price_yahoo = db.Column('target_high_price_yahoo', db.Float)
+    max_intraday_drop_percent = db.Column('max_intraday_drop_percent', db.Float)
     beta = db.Column('beta', db.Float)
     fmp_rating = db.Column('fmp_rating', db.String)
     fmp_score = db.Column('fmp_score', db.Integer)

@@ -33,5 +33,5 @@ def get_company_info(s):
 
 
 if __name__ == '__main__':
-    a,b,c=get_fmp_stats_for_ticker('msft')
+    a,b,c,d=get_fmp_stats_for_ticker('msft')
     r = 3

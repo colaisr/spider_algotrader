@@ -55,6 +55,18 @@ def updatemarketdataforcandidate():
         return "filed"
     return "success"
 
+@research.route('updatemarketdataforcandidate_test_msft/', methods=['GET'])
+@csrf.exempt
+@cross_origin(origin='*', headers=['Content-Type', 'Authorization'])
+def updatemarketdataforcandidate_test_msft():
+    ticker = 'MSFT'
+    try:
+        r = research_ticker(ticker)
+    except Exception as e:
+        print('problem with research', e)
+        return "filed"
+    return "success"
+
 
 @csrf.exempt
 @research.route('/updatemarketdataforcandidatespider', methods=['POST'])
