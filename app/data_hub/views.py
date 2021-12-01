@@ -36,6 +36,13 @@ def current_market_operation():
     result = current_market_operation_w()
     return jsonify(result)
 
+# http://localhost:8000/data_hub/current_snp
+@data_hub.route('current_snp/', methods=['GET'])
+@csrf.exempt
+def current_snp():
+    result = current_snp_w()
+    return jsonify(result)
+
 
 # http://localhost:8000/data_hub/current_stock_price_full/AAPL,MSFT
 @data_hub.route('current_stock_price_full/<tickers>', methods=['GET'])

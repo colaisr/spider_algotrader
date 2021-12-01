@@ -63,6 +63,13 @@ def current_market_operation_w():
     data = get_jsonparsed_data(url)
     return data
 
+def current_snp_w():
+    # wrapper for current us market open/closed state
+    url = (
+            "https://financialmodelingprep.com/api/v3/quote/%5EGSPC?apikey=" + FMP_KEY)
+    data = get_jsonparsed_data(url)
+    return data
+
 
 def get_company_info_for_ticker(t):
     # used on adding ticker
