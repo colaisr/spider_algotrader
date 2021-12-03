@@ -232,7 +232,7 @@ def research_ticker(ticker):
         print("ERROR in Info research for " + ticker + " section: Yahoo info")
 
     if len(sections) > 0:
-        send_email(recipient='support@algotrader.company',
+        send_email(recipient='support@stockscore.company',
                    subject='Algotrader research problem with ' + ticker,
                    template='account/email/research_issue',
                    ticker=ticker,

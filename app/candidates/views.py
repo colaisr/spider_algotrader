@@ -58,13 +58,13 @@ def add_candidate():
 def add_by_spider():
     ticker_to_add = request.form['ticker_to_add']
     try:
-        candidate = Candidate.query.filter_by(email='support@algotrader.company', ticker=ticker_to_add).first()
+        candidate = Candidate.query.filter_by(email='support@stockscore.company', ticker=ticker_to_add).first()
         if candidate is None:
             print('adding ' + ticker_to_add)
             c = Candidate()
             c.ticker = ticker_to_add
             c.reason = ""
-            c.email = 'support@algotrader.company'
+            c.email = 'support@stockscore.company'
             c.enabled = True
             if not fill_ticker_data_from_fmp(c, True):
                 print(ticker_to_add + " skept no FMP data...")
@@ -73,7 +73,7 @@ def add_by_spider():
         else:
             return "candidate exist"
     except:
-        send_email(recipient='support@algotrader.company',
+        send_email(recipient='support@stockscore.company',
                    subject='Algotrader adding candidate problem with ' + ticker_to_add,
                    template='account/email/research_issue',
                    ticker=ticker_to_add,
