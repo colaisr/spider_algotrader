@@ -23,8 +23,12 @@ def get_fmp_stats_for_ticker(s):
         avdropP = df["dropP"].mean()
         avChangeP = df["diffP"].mean()
         buying_target_price=last_closing_adjusted_price-(last_closing_adjusted_price/100*avdropP)
+        first_price=df['adjClose'].iloc[252]
+        last_price=df['adjClose'].iloc[0]
+        momentum=(last_price-first_price)/first_price*100
 
-    return avdropP, avChangeP, max_intraday_drop_percent,buying_target_price
+
+    return avdropP, avChangeP, max_intraday_drop_percent,buying_target_price,momentum
 
 
 def get_company_info(s):

@@ -174,6 +174,13 @@ def get_info_ticker(ticker):
     info = get_company_info(ticker)
     return jsonify(info)
 
+@csrf.exempt
+@research.route('/test_fmp_historical/<ticker>', methods=['GET'])
+# @cross_origin(origin='*', headers=['Content-Type-Type', 'Authorization'])
+def test_fmp_historical(ticker):
+    a,b,c,d= get_fmp_stats_for_ticker(ticker)
+    return 'true'
+
 
 def research_ticker(ticker):
     print('started')
@@ -185,7 +192,6 @@ def research_ticker(ticker):
         m = 2
         tr = get_tiprank_for_ticker(ticker)
         marketdata.tipranks = tr['smartScore']
-        marketdata.twelve_month_momentum = tr['technicalsTwelveMonthsMomentum']
         marketdata.tr_hedgeFundTrend = tr['hedgeFundTrendValue']
         marketdata.tr_bloggerSectorAvg = tr['bloggerSectorAvg']
         marketdata.tr_bloggerBullishSentiment = tr['bloggerBullishSentiment']
@@ -207,7 +213,7 @@ def research_ticker(ticker):
         print("ERROR in MarketDataResearch for " + ticker + ". Section: tiprank")
 
     try:
-        marketdata.yahoo_avdropP, marketdata.yahoo_avspreadP, marketdata.max_intraday_drop_percent, marketdata.buying_target_price_fmp = get_fmp_stats_for_ticker(
+        marketdata.yahoo_avdropP, marketdata.yahoo_avspreadP, marketdata.max_intraday_drop_percent, marketdata.buying_target_price_fmp,marketdata.twelve_month_momentum = get_fmp_stats_for_ticker(
             ticker)
     except:
         sections.append("fmpStatus")
