@@ -114,6 +114,7 @@ def fill_ticker_data_from_fmp(c, research):
             or candidate_data['cik'] is None \
             or candidate_data['cik'] == '' \
             or candidate_data['isEtf'] \
+            or candidate_data['exchange'] =='Other OTC'\
             or not candidate_data['isActivelyTrading']:
         return False
     else:

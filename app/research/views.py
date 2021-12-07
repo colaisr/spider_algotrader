@@ -13,6 +13,7 @@ from app.models import TickerData, Candidate, LastUpdateSpyderData, SpiderStatus
 from app.models.fgi_score import Fgi_score
 from app.research.cnn_fgi_research import get_cnn_fgi_rate
 from app.research.fmp_research import get_fmp_stats_for_ticker, get_company_info
+from app.research.fmp_wrapper import get_company_info_for_ticker
 from app.research.tipranks_research import get_tiprank_for_ticker
 from app.research.yahoo_research import get_info_for_ticker
 
@@ -186,6 +187,13 @@ def test_fmp_historical(ticker):
 # @cross_origin(origin='*', headers=['Content-Type-Type', 'Authorization'])
 def test_research(ticker):
     research_ticker(ticker)
+    return 'true'
+
+@csrf.exempt
+@research.route('/test_company_info/<ticker>', methods=['GET'])
+# @cross_origin(origin='*', headers=['Content-Type-Type', 'Authorization'])
+def test_company_info(ticker):
+    candidate_data = get_company_info_for_ticker(ticker)
     return 'true'
 
 
