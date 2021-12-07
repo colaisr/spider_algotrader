@@ -181,6 +181,13 @@ def test_fmp_historical(ticker):
     a,b,c,d= get_fmp_stats_for_ticker(ticker)
     return 'true'
 
+@csrf.exempt
+@research.route('/test_research/<ticker>', methods=['GET'])
+# @cross_origin(origin='*', headers=['Content-Type-Type', 'Authorization'])
+def test_research(ticker):
+    research_ticker(ticker)
+    return 'true'
+
 
 def research_ticker(ticker):
     print('started')
