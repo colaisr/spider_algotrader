@@ -243,7 +243,7 @@ def research_ticker(ticker):
     marketdata.updated_server_time = ct
 
     if marketdata.tipranks is None and marketdata.yahoo_rank is not None:
-        marketdata.algotrader_rank = marketdata.yahoo_rank
+        marketdata.algotrader_rank = (6-marketdata.yahoo_rank)*2
     elif marketdata.tipranks is not None and marketdata.yahoo_rank is None:
         marketdata.algotrader_rank = marketdata.tipranks
     elif marketdata.tipranks is not None and marketdata.yahoo_rank is not None:
