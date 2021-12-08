@@ -9,11 +9,11 @@ def get_fmp_stats_for_ticker(s):
     max_intraday_drop_percent = 0
     avdropP = 0
     avChangeP = 0
-    buying_target_price=0
+    buying_target_price = 0
 
-    if len(df)>0:
-        last_closing_adjusted_price=df[0]['adjClose']
-        df=pd.DataFrame(df)
+    if len(df) > 0:
+        last_closing_adjusted_price = df[0]['adjClose']
+        df = pd.DataFrame(df)
         df['drop'] = df['open'] - df['low']
         df['dropP'] = df['drop'] / df['open'] * 100
         df['diffD'] = df['low'] - df['high']

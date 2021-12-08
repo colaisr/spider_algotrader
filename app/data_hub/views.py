@@ -55,6 +55,7 @@ def current_stock_price_full(tickers):
 # http://localhost:8000/data_hub/current_stock_price_short/AAPL,MSFT
 @data_hub.route('current_stock_price_short/<tickers>', methods=['GET'])
 @csrf.exempt
+@cross_origin(origin='*', headers=['Content-Type-Type', 'Authorization'])
 def current_stock_price_short(tickers):
     result = current_stock_price_short_w(tickers)
     return jsonify(result)
@@ -163,3 +164,4 @@ def technical_indicators():
     type = request.args.get('type')
     result = technical_indicator_w(ticker, type)
     return jsonify(result)
+
