@@ -165,3 +165,10 @@ def technical_indicators():
     result = technical_indicator_w(ticker, type)
     return jsonify(result)
 
+# http://localhost:8000/data_hub/similar/AAPL
+@data_hub.route('similar/<ticker>', methods=['GET'])
+@csrf.exempt
+def similar(ticker):
+    result = similar_w(ticker)
+    return jsonify(result)
+

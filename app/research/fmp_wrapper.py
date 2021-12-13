@@ -185,6 +185,12 @@ def analysts_estimations_w(t):
     data = get_jsonparsed_data(url)
     return data
 
+def similar_w(t):
+    # wrapper for yearly financial statement
+    url = (
+            "https://financialmodelingprep.com/api/v4/stock_peers?symbol="+t+"&apikey=" + FMP_KEY)
+    data = get_jsonparsed_data(url)
+    return data
 
 if __name__ == '__main__':
     get_last_year_full_for_ticker('msft')
