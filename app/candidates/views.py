@@ -7,7 +7,7 @@ from flask import (
 from app import csrf
 from app.email import send_email
 from app.models import Candidate
-from app.research.fmp_wrapper import get_company_info_for_ticker,current_stock_price_short_w
+from app.research.fmp_wrapper import get_company_info_for_ticker
 from app.research.views import research_ticker, get_info_for_ticker
 
 from flask_cors import cross_origin
@@ -127,8 +127,6 @@ def fill_ticker_data_from_fmp(c, research):
         c.logo = candidate_data['image']
         c.website = candidate_data['website']
         c.isActivelyTrading_fmp = candidate_data['isActivelyTrading']
-        price=current_stock_price_short_w(c.ticker)[0]['price']
-        c.price_added=price
         c.update_candidate()
         if research:
             research_ticker(c.ticker)
