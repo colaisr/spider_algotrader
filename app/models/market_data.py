@@ -19,7 +19,7 @@ class TickerData(db.Model):
     ticker = db.Column('ticker', db.String)
     yahoo_avdropP = db.Column('yahoo_avdropP', db.Float)
     yahoo_avspreadP = db.Column('yahoo_avspreadP', db.Float)
-    buying_target_price_fmp = db.Column('buying_target_price_fmp', db.Float)
+    buying_target_price_fmp=db.Column('buying_target_price_fmp', db.Float)
     tipranks = db.Column('tipranks', db.Integer)
     yahoo_rank = db.Column('yahoo_rank', db.Float)
     stock_invest_rank = db.Column('stock_invest_rank', db.Float)
@@ -34,7 +34,6 @@ class TickerData(db.Model):
     fmp_score = db.Column('fmp_score', db.Integer)
     updated_server_time = db.Column('updated_server_time', db.DateTime)
     algotrader_rank = db.Column('algotrader_rank', db.Float)
-    dcf_fmp = db.Column('dcf_fmp', db.Float)
 
     tr_hedgeFundTrendValue = db.Column('tr_hedgeFundTrendValue', db.Float)
     tr_bloggerSectorAvg = db.Column('tr_bloggerSectorAvg', db.Float)
@@ -52,7 +51,6 @@ class TickerData(db.Model):
     tr_newsSentiment = db.Column('tr_newsSentiment', db.String)
     tr_bloggerConsensus = db.Column('tr_bloggerConsensus', db.String)
 
-
     def add_ticker_data(self):
         db.session.add(self)
         db.session.commit()
@@ -61,43 +59,9 @@ class TickerData(db.Model):
         return json.dumps(self, default=lambda o: o.__dict__)
 
     def toDictionary(self):
-        d = {}
-        d['ticker'] = self.ticker
-        d['yahoo_avdropP'] = self.yahoo_avdropP
-        d['yahoo_avspreadP'] = self.yahoo_avspreadP
-        d['buying_target_price_fmp'] = self.buying_target_price_fmp
-        d['tipranks'] = self.tipranks
-        d['yahoo_rank'] = self.yahoo_rank
-        d['algotrader_rank'] = self.algotrader_rank
-        d['under_priced_pnt'] = self.under_priced_pnt
-        d['twelve_month_momentum'] = self.twelve_month_momentum
-        d['target_mean_price'] = self.target_mean_price
-        d['target_low_price_yahoo'] = self.target_low_price_yahoo
-        d['target_high_price_yahoo'] = self.target_high_price_yahoo
-        d['max_intraday_drop_percent'] = self.max_intraday_drop_percent
-        d['beta'] = self.beta
-        d['fmp_rating'] = self.fmp_rating
-        d['fmp_score'] = self.fmp_score
-        d['stock_invest_rank'] = self.stock_invest_rank
-        d['dcf_fmp'] = self.dcf_fmp
-
-        d['tr_hedgeFundTrendValue'] = self.tr_hedgeFundTrendValue
-        d['tr_bloggerSectorAvg'] = self.tr_bloggerSectorAvg
-        d['tr_bloggerBullishSentiment'] = self.tr_bloggerBullishSentiment
-        d['tr_insidersLast3MonthsSum'] = self.tr_insidersLast3MonthsSum
-        d['tr_newsSentimentsBearishPercent'] = self.tr_newsSentimentsBearishPercent
-        d['tr_newsSentimentsBullishPercent'] = self.tr_newsSentimentsBullishPercent
-        d['tr_priceTarget'] = self.tr_priceTarget
-        d['tr_fundamentalsReturnOnEquity'] = self.tr_fundamentalsReturnOnEquity
-        d['tr_fundamentalsAssetGrowth'] = self.tr_fundamentalsAssetGrowth
-        d['tr_sma'] = self.tr_sma
-        d['tr_analystConsensus'] = self.tr_analystConsensus
-        d['tr_hedgeFundTrend'] = self.tr_hedgeFundTrend
-        d['tr_insiderTrend'] = self.tr_insiderTrend
-        d['tr_newsSentiment'] = self.tr_newsSentiment
-        d['tr_bloggerConsensus'] = self.tr_bloggerConsensus
-
-        d['updated_server_time'] = datetime.isoformat(self.updated_server_time)
+        d = self.__dict__
+        d.pop('_sa_instance_state', None)
+        d.__setitem__('updated_server_time', datetime.isoformat(self.updated_server_time))
         return d
 
 
@@ -130,10 +94,4 @@ class SpiderStatus(db.Model):
     start_process_date = db.Column('start_process_date', db.DateTime)
     status = db.Column('status', db.String)
     percent = db.Column('percent', db.Float)
-
-    def update_status(self):
-        data = SpiderStatus.query.first()
-        if data is None:
-            db.session.add(self)
-        db.session.commit()
 

@@ -1,13 +1,14 @@
-import json
+from sqlalchemy import text
 from flask import (
     Blueprint,
     request
 )
 
-from app import csrf
+from app import csrf, db
+import app.generalutils as general
 from app.email import send_email
-from app.models import Candidate
-from app.research.fmp_wrapper import get_company_info_for_ticker
+from app.models import Candidate, UserSetting, TickerData
+from app.research.fmp_wrapper import *
 from app.research.views import research_ticker, get_info_for_ticker
 
 from flask_cors import cross_origin
@@ -133,11 +134,35 @@ def fill_ticker_data_from_fmp(c, research):
         return True
 
 
-@candidates.route('test/<ticker>', methods=['GET'])
-def test(ticker):
-    c = Candidate()
-    c.ticker=ticker
-    fill_ticker_data_from_fmp(c, False)
+@candidates.route('notifications', methods=['GET'])
+@csrf.exempt
+def notifications():
+    users = UserSetting.query.filter_by(notify_candidate_signal=1).all()
+    for user in users:
+        query_text = f"SELECT a.ticker, a.buying_target_price_fmp " \
+                     f"FROM Tickersdata a JOIN " \
+                     f"(SELECT t.ticker, MAX(t.updated_server_time) AS updated_server_time " \
+                     f"FROM Candidates c JOIN Tickersdata t ON t.ticker=c.ticker " \
+                     f"WHERE c.email='{user.email}' " \
+                     f"AND c.enabled = 1 GROUP BY t.ticker) b ON b.ticker=a.ticker " \
+                     f"AND b.updated_server_time = a.updated_server_time"
+        market_data = db.engine.execute(text(query_text))
+        tickers = [dict(r.items()) for r in market_data]
+        tickers_arr = [x['ticker'] for x in tickers]
+        delim = ","
+        prices = current_stock_price_full_w(delim.join(tickers_arr))
+
+        for_notifications = [(x, y) for x in tickers for y in prices if x['ticker'] == y['symbol'] and x['buying_target_price_fmp'] <= y['price']]
+        #
+        # send_email(recipient='support@stockscore.company',
+        #            subject='StockScore notifications TEST',
+        #            template='account/email/tickers_notification',
+        #            data=for_notifications)
+        send_email(recipient='support@stockscore.company',
+                   subject='Algotrader research problem with TEST',
+                   template='account/email/research_issue',
+                   ticker='TEST',
+                   sections="TEST SECTION")
     return 'test'
 
 

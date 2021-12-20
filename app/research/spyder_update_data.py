@@ -4,6 +4,7 @@ import urllib
 from urllib.request import urlopen
 from datetime import datetime
 import time
+from app import env
 
 #***************************************
 #***************************************
@@ -11,8 +12,9 @@ import time
 #***************************************
 #***************************************
 
+server_url = 'http://localhost:8000/' if env == 'DEV' else 'https://colak.eu.pythonanywhere.com/'
 # server_url = "http://localhost:8000/"
-server_url = "http://colak.eu.pythonanywhere.com/"
+# server_url = "http://colak.eu.pythonanywhere.com/"
 
 
 def get_all_tickers():
@@ -182,12 +184,12 @@ def spider_process():
     print("*************************************************")
 
 
-def update_data_historical():
+def test():
     data = urllib.parse.urlencode({
         "test": "test"
     })
     data = data.encode('ascii')
-    url = server_url + "candidates/update_ticker_historical"
+    url = server_url + "candidates/notifications"
     try:
         response = urllib.request.urlopen(url, data)
     except Exception as e:
@@ -196,7 +198,7 @@ def update_data_historical():
 #*****************************************************************
 #*****************************************************************
 #*****************************************************************
-
+#
 last_week_champs()
 spider_process()
-# update_data_historical()
+# test()

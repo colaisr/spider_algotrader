@@ -7,3 +7,4 @@ from .user import *  # noqa
 from .market_data import *
 from .candidates import *
 from .fgi_score import *
+from .user_settings import *

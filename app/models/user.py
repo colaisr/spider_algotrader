@@ -1,3 +1,5 @@
+import os
+from oauthlib.oauth2 import WebApplicationClient
 from flask import current_app
 from flask_login import AnonymousUserMixin, UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
@@ -10,6 +12,16 @@ from .. import db, login_manager
 class Permission:
     GENERAL = 0x01
     ADMINISTER = 0xff
+
+
+class Subscription(db.Model):
+    __tablename__ = 'Subscriptions'
+    # __bind_key__ = 'db_users'
+    id = db.Column(db.Integer, primary_key=True)
+    subscription_name = db.Column(db.String(150), unique=True)
+    description = db.Column(db.String(max))
+    price = db.Column(db.String(50))
+    users = db.relationship('User', backref='subscription', lazy='dynamic')
 
 
 class Role(db.Model):
@@ -61,11 +73,16 @@ class User(UserMixin, db.Model):
     signature = db.Column(db.Boolean, default=False)
     signature_full_name = db.Column(db.String(100))
     registration_date = db.Column(db.DateTime)
+    subscription_type_id = db.Column(db.Integer, db.ForeignKey('Subscriptions.id'))
+    subscription_start_date = db.Column(db.DateTime)
+    subscription_end_date = db.Column(db.DateTime)
+    google_id = db.Column(db.String(100))
+    google_account_img = db.Column(db.String(250))
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
-        self.signature = False
-        self.signature_full_name = ''
+        if self.subscription is None:
+            self.subscription = Subscription.query.filter_by(id=self.subscription_type_id).first()
         if self.role is None:
             if self.email == current_app.config['ADMIN_EMAIL']:
                 self.role = Role.query.filter_by(
@@ -74,11 +91,9 @@ class User(UserMixin, db.Model):
                 self.role = Role.query.filter_by(default=True).first()
 
     def update_user(self):
-        settings = User.query.filter((User.email == self.email)).first()
-
-        if settings is None:
+        user = User.query.filter((User.email == self.email)).first()
+        if user is None:
             db.session.add(self)
-
         db.session.commit()
 
     def full_name(self):
@@ -166,6 +181,32 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         db.session.commit()
         return True
+
+    # @staticmethod
+    # def generate_fake(count=100, **kwargs):
+    #     """Generate a number of fake users for testing."""
+    #     from sqlalchemy.exc import IntegrityError
+    #     from random import seed, choice
+    #     from faker import Faker
+    #
+    #     fake = Faker()
+    #     roles = Role.query.all()
+    #
+    #     seed()
+    #     for i in range(count):
+    #         u = User(
+    #             first_name=fake.first_name(),
+    #             last_name=fake.last_name(),
+    #             email=fake.email(),
+    #             password='password',
+    #             confirmed=True,
+    #             role=choice(roles),
+    #             **kwargs)
+    #         db.session.add(u)
+    #         try:
+    #             db.session.commit()
+    #         except IntegrityError:
+    #             db.session.rollback()
 
     def __repr__(self):
         return '<User \'%s\'>' % self.full_name()

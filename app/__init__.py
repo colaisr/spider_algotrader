@@ -27,6 +27,8 @@ login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 login_manager.login_view = 'account.login'
 
+env = os.getenv('ENV', 'PROD')
+
 
 def create_app(config):
     app = Flask(__name__)

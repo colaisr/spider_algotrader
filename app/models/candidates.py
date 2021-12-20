@@ -1,5 +1,6 @@
-from .. import db
 from datetime import datetime
+
+from .. import db
 
 
 class Candidate(db.Model):
@@ -43,6 +44,17 @@ class Candidate(db.Model):
             candidate.full_description = self.full_description
             candidate.logo = self.logo
             candidate.website = self.website
+        db.session.commit()
+
+    def delete_candidate(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def change_enabled_state(self):
+        if self.enabled:
+            self.enabled = False
+        else:
+            self.enabled = True
         db.session.commit()
 
     def to_dictionary(self):
