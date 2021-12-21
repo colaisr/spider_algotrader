@@ -4,7 +4,7 @@ import urllib
 from urllib.request import urlopen
 from datetime import datetime
 import time
-from app import env
+# from app import env
 
 #***************************************
 #***************************************
@@ -12,9 +12,9 @@ from app import env
 #***************************************
 #***************************************
 
-server_url = 'http://localhost:8000/' if env == 'DEV' else 'https://colak.eu.pythonanywhere.com/'
+# server_url = 'http://localhost:8000/' if env == 'DEV' else 'https://colak.eu.pythonanywhere.com/'
 # server_url = "http://localhost:8000/"
-# server_url = "http://colak.eu.pythonanywhere.com/"
+server_url = "http://colak.eu.pythonanywhere.com/"
 
 
 def get_all_tickers():

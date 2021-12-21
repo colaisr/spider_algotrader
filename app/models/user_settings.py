@@ -18,6 +18,14 @@ class Strategy(db.Model):
     strategy = db.Column('strategy', db.String)
 
 
+class Notification(db.Model):
+    __tablename__ = 'Notifications'
+    id = db.Column('id', db.Integer, primary_key=True)
+    email = db.Column('email', db.String)
+    ticker = db.Column('ticker', db.String)
+    date = db.Column('date', db.DateTime)
+
+
 class UserStrategySettingsDefault(db.Model):
     __tablename__ = 'UserStrategySettingsDefault'
     id = db.Column('id', db.Integer, primary_key=True)

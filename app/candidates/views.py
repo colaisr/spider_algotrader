@@ -152,12 +152,12 @@ def notifications():
         delim = ","
         prices = current_stock_price_full_w(delim.join(tickers_arr))
 
-        for_notifications = [(x, y) for x in tickers for y in prices if x['ticker'] == y['symbol'] and x['buying_target_price_fmp'] <= y['price']]
+        notifications_data = [(x, y) for x in tickers for y in prices if x['ticker'] == y['symbol'] and x['buying_target_price_fmp'] <= y['price']]
 
         send_email(recipient='support@stockscore.company',
                    subject='StockScore notifications TEST',
                    template='account/email/tickers_notification',
-                   data=for_notifications)
+                   data=notifications_data)
 
     return 'test'
 

@@ -14,8 +14,8 @@
         {% for d in data %}
             <tr class="hover-actions-trigger">
                 <td class="align-middle text-nowrap">{{d[0]['ticker']}}</td>
-                <td class="align-middle text-nowrap">{{d[1]['price']}}</td>
-                <td class="align-middle text-nowrap">{{d[0]['buying_target_price_fmp']}}</td>
+                <td class="align-middle text-nowrap">{{d[1]['price']|round(2)}}</td>
+                <td class="align-middle text-nowrap">{{d[0]['buying_target_price_fmp']|round(2)}}</td>
             </tr>
         {% endfor %}
         </tbody>

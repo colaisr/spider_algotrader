@@ -9,7 +9,7 @@ from datetime import datetime
 
 from app import csrf
 from app.email import send_email
-from app.models import TickerData, Candidate, LastUpdateSpyderData, SpiderStatus
+from app.models import TickerData, Candidate, LastUpdateSpyderData, ProcessStatus
 from app.models.fgi_score import Fgi_score
 from app.research.cnn_fgi_research import get_cnn_fgi_rate
 from app.research.fmp_research import get_fmp_stats_for_ticker, get_company_info
@@ -138,9 +138,10 @@ def update_spider_process_status():
     percent = float(request.form['percent'])
 
     try:
-        spider_status = SpiderStatus.query.first()
+        spider_status = ProcessStatus.query.filter_by(process_type=1).first()
         if spider_status is None:
-            spider_status = SpiderStatus()
+            spider_status = ProcessStatus()
+            spider_status.process_type = 1 #spyder_process
         if status == 0:
             spider_status.start_process_date = datetime.utcnow()
             spider_status.status = "spider started"
