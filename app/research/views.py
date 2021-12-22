@@ -136,6 +136,8 @@ def savelasttimeforupdatedata():
 def update_spider_process_status():
     status = int(request.form['status'])
     percent = float(request.form['percent'])
+    updated_items = float(request.form['updated_items'])
+    all_items = float(request.form['all_items'])
 
     try:
         spider_status = ProcessStatus.query.filter_by(process_type=1).first()
@@ -152,6 +154,8 @@ def update_spider_process_status():
         else:
             spider_status.status = "spider finished"
             spider_status.percent = 100
+        spider_status.all_items = all_items
+        spider_status.updated_items = updated_items
         spider_status.update_status()
         return "successfully update spider status"
     except Exception as e:

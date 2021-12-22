@@ -59,7 +59,7 @@ def update_market_data(_tickers, _update_times, _research_error_tickers, _error_
                 counter -= 1
 
             if counter * p >= percent:
-                update_spider_process_status(percent, 1)
+                update_spider_process_status(percent, len(_tickers), counter-1, 1)
                 percent += min_step
         except Exception as e:
             # print(f"Error in for cycle: {e}")
@@ -70,11 +70,13 @@ def update_market_data(_tickers, _update_times, _research_error_tickers, _error_
     return _already_updated_tickers, _error_status, percent, counter
 
 
-def update_spider_process_status(percent, status):
+def update_spider_process_status(percent, all_tickers, updated_tickers, status):
     #status: 0 - started, 1 - run, 2 - ended
     data = urllib.parse.urlencode({
         "status": status,
-        "percent": percent
+        "percent": percent,
+        "all_items": all_tickers,
+        "updated_items": updated_tickers
     })
     data = data.encode('ascii')
     url = server_url + "research/update_spider_process_status"
@@ -135,11 +137,11 @@ def spider_process():
     error_tickers = []
     research_error_tickers = []
     update_times = []
+    num_of_tickers = len(tickers)
 
-    update_spider_process_status(0, 0)
+    update_spider_process_status(0, num_of_tickers, 0, 0)
     already_updated_tickers, error_status, percent, counter = update_market_data(tickers, update_times, research_error_tickers, error_tickers, 2, 1)
 
-    num_of_tickers = len(tickers)
 
     # if len(error_tickers) > 0 or len(research_error_tickers) > 0:
     #     tickers = []
@@ -152,7 +154,7 @@ def spider_process():
     #         research_error_tickers = []
     #     already_updated_tickers, error_status, percent, counter = update_market_data(tickers, update_times, research_error_tickers, error_tickers, percent, counter)
 
-    update_spider_process_status(percent, 2)
+    update_spider_process_status(percent, num_of_tickers, counter-1, 2)
 
     if error_status == 1:
         print(f"Update MarketData error. Tickers: {json.dumps(error_tickers)}")
