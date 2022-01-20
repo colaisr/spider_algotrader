@@ -10,6 +10,7 @@ from app.email import send_email
 from app.models import Candidate, UserSetting, TickerData
 from app.research.fmp_wrapper import *
 from app.research.views import research_ticker, get_info_for_ticker
+from app.research.tipranks_research import get_tiprank_for_ticker
 
 from flask_cors import cross_origin
 
@@ -111,7 +112,8 @@ def update_ticker_historical():
 
 def fill_ticker_data_from_fmp(c, research):
     candidate_data = get_company_info_for_ticker(c.ticker)
-    if candidate_data is None or len(candidate_data) == 0 \
+    tiprank_data = get_tiprank_for_ticker(c.ticker)
+    if candidate_data is None or tiprank_data is None or len(candidate_data) == 0 \
             or candidate_data['cik'] is None \
             or candidate_data['cik'] == '' \
             or candidate_data['isEtf'] \

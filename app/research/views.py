@@ -198,7 +198,8 @@ def test_research(ticker):
 @research.route('/test_company_info/<ticker>', methods=['GET'])
 # @cross_origin(origin='*', headers=['Content-Type-Type', 'Authorization'])
 def test_company_info(ticker):
-    candidate_data = get_company_info_for_ticker(ticker)
+    # candidate_data = get_company_info_for_ticker(ticker)
+    candidate_data = research_ticker(ticker)
     return 'true'
 
 
@@ -228,9 +229,10 @@ def research_ticker(ticker):
         marketdata.tr_newsSentiment = tr['newsSentiment']
         marketdata.tr_bloggerConsensus = tr['bloggerConsensus']
 
-    except:
+
+    except Exception as e:
         sections.append("tiprank")
-        print("ERROR in MarketDataResearch for " + ticker + ". Section: tiprank")
+        print(f"ERROR in MarketDataResearch for {ticker}. Section: tiprank. \n Exception: {e}")
 
     try:
         marketdata.yahoo_avdropP, marketdata.yahoo_avspreadP, marketdata.max_intraday_drop_percent, marketdata.buying_target_price_fmp,marketdata.twelve_month_momentum = get_fmp_stats_for_ticker(
