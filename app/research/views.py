@@ -39,7 +39,7 @@ def updatefgiscore():
         # fgi_score.updated_cnn = updated_cnn
         fgi_score.add_score()
     except Exception as e:
-        print('problem with FGI', e)
+        print('problem with FGI', str(e))
     finally:
         return 'Done'
 
@@ -64,7 +64,7 @@ def updatemarketdataforcandidate_test_msft():
     try:
         r = research_ticker(ticker)
     except Exception as e:
-        print('problem with research', e)
+        print('problem with research', str(e))
         return "filed"
     return "success"
 
@@ -87,7 +87,7 @@ def updatemarketdataforcandidatespider():
         # return result, log
     except Exception as e:
         print('problem with research', e)
-        return json.dumps({"status": 2, "error": e})
+        return json.dumps({"status": 2, "error": str(e)})
 
 
 @csrf.exempt
@@ -232,7 +232,7 @@ def research_ticker(ticker):
 
     except Exception as e:
         sections.append("tiprank")
-        print(f"ERROR in MarketDataResearch for {ticker}. Section: tiprank. \n Exception: {e}")
+        print(f"ERROR in MarketDataResearch for {ticker}. Section: tiprank. \n Exception: {str(e)}")
 
     try:
         marketdata.yahoo_avdropP, marketdata.yahoo_avspreadP, marketdata.max_intraday_drop_percent, marketdata.buying_target_price_fmp,marketdata.twelve_month_momentum = get_fmp_stats_for_ticker(

@@ -83,7 +83,7 @@ def update_spider_process_status(percent, all_tickers, updated_tickers, status):
     try:
         response = urllib.request.urlopen(url, data)
     except Exception as e:
-        print("update spider process status failed. ", e)
+        print("update spider process status failed. ", str(e))
 
 
 def last_week_champs():
@@ -121,7 +121,7 @@ def last_week_champs():
                 now = datetime.now()
                 print(f"Sent stamp {now.strftime('%d/%m/%Y %H:%M:%S')}")
         except Exception as e:
-            print(f"GetLastWeekChamp error. {e}")
+            print(f"GetLastWeekChamp error. {str(e)}")
         now = datetime.now()
         print(f"****End spider for last week champs {now.strftime('%d/%m/%Y %H:%M:%S')} ****")
     except Exception as e:

@@ -34,7 +34,7 @@ def get_cnn_fgi_rate():
 
         return val
     except Exception as e:
-        print('problem with getting: ', e)
+        print('problem with getting: ', str(e))
         return None, None, None
 
 
