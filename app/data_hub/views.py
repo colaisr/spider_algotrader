@@ -71,6 +71,14 @@ def stock_news():
     return jsonify(result)
 
 
+# http://localhost:8000/data_hub/stock_all_news
+@data_hub.route('stock_all_news', methods=['GET'])
+@csrf.exempt
+def stock_all_news():
+    result = stock_all_news_w()
+    return jsonify(result)
+
+
 # http://localhost:8000/data_hub/average_sector_pe_today/Energy
 @data_hub.route('average_sector_pe_today/<sector>', methods=['GET'])
 @csrf.exempt

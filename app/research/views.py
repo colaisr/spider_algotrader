@@ -75,10 +75,10 @@ def updatemarketdataforcandidatespider():
     ticker = request.form['ticker_to_update']
     try:
         m_data = TickerData.query.filter_by(ticker=ticker).order_by(TickerData.updated_server_time.desc()).first()
-        updated = m_data.updated_server_time.date()
+        updated = m_data.updated_server_time.date() if m_data is not None else None
         today = datetime.now().date()
 
-        if updated != today:
+        if updated is None or updated != today:
             result = research_ticker(ticker)
             return result
         else:
@@ -193,6 +193,7 @@ def test_fmp_historical(ticker):
 def test_research(ticker):
     research_ticker(ticker)
     return 'true'
+
 
 @csrf.exempt
 @research.route('/test_company_info/<ticker>', methods=['GET'])

@@ -117,6 +117,14 @@ def stock_news_w(t, l):
     return data
 
 
+def stock_all_news_w():
+    # wrapper for stock news
+    url = (
+            "https://financialmodelingprep.com/api/v3/stock_news?apikey=" + FMP_KEY)
+    data = get_jsonparsed_data(url)
+    return data
+
+
 def average_sector_pe_today(sector):
     # wrapper today pe average
     today = str(datetime.datetime.utcnow().date())
