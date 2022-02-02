@@ -250,7 +250,7 @@ def research_ticker(ticker):
             marketdata.target_high_price_yahoo = info['targetHighPrice']
             marketdata.target_low_price_yahoo = info['targetLowPrice']
             difference = marketdata.target_mean_price - info['currentPrice']
-            marketdata.under_priced_pnt = round(difference / marketdata.target_mean_price * 100, 1)
+            marketdata.under_priced_pnt = round(difference / info['currentPrice'] * 100, 1)
             marketdata.yahoo_rank = info['recommendationMean']
         except:
             marketdata.yahoo_rank = None
